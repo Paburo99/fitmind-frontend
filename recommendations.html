@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recommendations - FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+             <ul id="navLinks">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/track_data.html">Track Data</a></li>
+                <li><a href="/recommendations.html">Recommendations</a></li>
+                <li><a href="/progress.html">Progress</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+        <div id="userEmailDisplay"></div>
+    </header>
+
+    <div class="container">
+        <h1>AI-Powered Recommendations</h1>
+        <div id="recommendationMessage" style="display:none;"></div>
+
+        <section>
+            <h2>Workout Suggestion</h2>
+            <button id="getWorkoutRecButton">Get Workout Idea</button>
+            <div id="workoutRecommendation" style="margin-top: 10px; white-space: pre-wrap; background-color: #f9f9f9; padding:10px; border-radius:4px;">
+                Click the button to get a workout suggestion based on your profile.
+            </div>
+        </section>
+        <hr>
+        <section>
+            <h2>Meal Suggestion</h2>
+            <label for="mealTypeSelect">Select meal type:</label>
+            <select id="mealTypeSelect">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch" selected>Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack</option>
+            </select>
+            <button id="getMealRecButton" style="margin-left: 10px;">Get Meal Idea</button>
+            <div id="mealRecommendation" style="margin-top: 10px; white-space: pre-wrap; background-color: #f9f9f9; padding:10px; border-radius:4px;">
+                Select a meal type and click the button for a meal suggestion.
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/apiService.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/recommend.js"></script>
+</body>
+</html>

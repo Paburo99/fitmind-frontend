@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Progress - FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav>
+             <ul id="navLinks">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/track_data.html">Track Data</a></li>
+                <li><a href="/recommendations.html">Recommendations</a></li>
+                <li><a href="/progress.html">Progress</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+        <div id="userEmailDisplay"></div>
+    </header>
+
+    <div class="container">
+        <h1>Your Progress & Insights</h1>
+        <div id="progressMessage" style="display:none;"></div>
+
+        <section>
+            <h2>Weight Trend</h2>
+            <canvas id="weightChart" width="400" height="200"></canvas>
+            <p id="noWeightDataMessage" style="display:none;">No weight data logged yet to display a chart.</p>
+        </section>
+        <hr>
+        <!-- Add more sections for other charts: e.g., calorie intake, workout frequency -->
+        
+        <section>
+            <h2>AI-Powered Insights</h2>
+            <button id="generateInsightsButton">Generate Insights</button>
+            <div id="insightsArea" style="margin-top: 10px; white-space: pre-wrap; background-color: #f9f9f9; padding:10px; border-radius:4px;">
+                Click the button to generate insights based on your recent activity.
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/apiService.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/progress_chart.js"></script> 
+</body>
+</html>

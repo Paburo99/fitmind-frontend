@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+             <div id="authLinks">
+                <ul>
+                    <li><a href="/index.html">Login</a></li>
+                    <li><a href="/register.html">Register</a></li>
+                    <li><a href="/about.html">About</a></li>
+                </ul>
+            </div>
+            <ul id="navLinks" style="display: none;">
+                <!-- Nav links for logged-in users -->
+            </ul>
+        </nav>
+         <div id="userEmailDisplay"></div>
+    </header>
+
+    <div class="container">
+        <h1>Register for FitTrack AI</h1>
+        <form id="registerForm">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" minlength="6" required>
+            </div>
+            <div>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div id="registerMessage" style="display:none;"></div>
+        <p>Already have an account? <a href="/index.html">Login here</a>.</p>
+    </div>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/apiService.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/auth.js"></script>
+</body>
+</html>

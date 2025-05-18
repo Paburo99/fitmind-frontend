@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+             <ul id="navLinks">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/track_data.html">Track Data</a></li>
+                <li><a href="/recommendations.html">Recommendations</a></li>
+                <li><a href="/progress.html">Progress</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+        <div id="userEmailDisplay"></div>
+    </header>
+
+    <div class="container">
+        <h1>Welcome to Your Dashboard</h1>
+        <div id="dashboardSummary">
+            <p>Loading summary...</p>
+        </div>
+        <div id="quickActions">
+            <h2>Quick Actions</h2>
+            <button onclick="window.location.href='/track_data.html#logWorkout'">Log Workout</button>
+            <button onclick="window.location.href='/track_data.html#logNutrition'">Log Nutrition</button>
+            <button onclick="window.location.href='/track_data.html#logWeight'">Log Weight</button>
+            <button onclick="window.location.href='/track_data.html#logWater'">Log Water</button>
+        </div>
+         <div id="dashboardMessage" style="display:none;"></div>
+    </div>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/apiService.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

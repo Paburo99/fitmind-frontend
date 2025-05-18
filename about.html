@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Conditionally show authLinks or navLinks based on login state via main.js -->
+            <div id="authLinks" style="display: none;"> <!-- Initially hidden, main.js will show if not logged in -->
+                <ul>
+                    <li><a href="/index.html">Login</a></li>
+                    <li><a href="/register.html">Register</a></li>
+                    <li><a href="/about.html">About</a></li>
+                </ul>
+            </div>
+            <ul id="navLinks" style="display: none;"> <!-- Initially hidden, main.js will show if logged in -->
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <!-- ... other links ... -->
+                 <li><a href="/about.html">About</a></li>
+                <li><button id="logoutButton" style="display:none;">Logout</button></li>
+            </ul>
+        </nav>
+        <div id="userEmailDisplay"></div>
+    </header>
+    <div class="container">
+        <h1>About FitTrack AI</h1>
+        <p>FitTrack AI is an intelligent fitness tracking and guidance application designed to help you achieve your health and wellness goals.</p>
+        <p>We leverage cutting-edge AI to provide personalized recommendations and insights based on your activity, nutrition, and profile.</p>
+        
+        <h2>Features:</h2>
+        <ul>
+            <li>Comprehensive data logging for workouts, nutrition, weight, and water intake.</li>
+            <li>Personalized dashboard summarizing your daily progress.</li>
+            <li>AI-driven workout and meal suggestions tailored to your profile and goals.</li>
+            <li>Progress tracking with visual charts and AI-generated insights.</li>
+            <li>Secure and private data storage.</li>
+        </ul>
+
+        <h2>Disclaimer:</h2>
+        <p>The information provided by FitTrack AI is for informational purposes only and does not constitute medical advice. Always consult with a qualified healthcare professional before starting any new fitness program or making changes to your diet.</p>
+        
+        <p><a href="/index.html">Back to App</a></p>
+    </div>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/main.js"></script> <!-- To handle nav display -->
+</body>
+</html>

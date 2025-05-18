@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Data - FitTrack AI</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <nav>
+             <ul id="navLinks">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/track_data.html">Track Data</a></li>
+                <li><a href="/recommendations.html">Recommendations</a></li>
+                <li><a href="/progress.html">Progress</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+        <div id="userEmailDisplay"></div>
+    </header>
+
+    <div class="container">
+        <h1>Log Your Activities & Nutrition</h1>
+        <div id="trackingMessage" style="display:none;"></div>
+
+        <!-- Workout Log Form -->
+        <section id="logWorkout">
+            <h2>Log Workout</h2>
+            <form id="workoutLogForm">
+                <div>
+                    <label for="workout_date">Date:</label>
+                    <input type="date" id="workout_date" name="date" required>
+                </div>
+                <div>
+                    <label for="workout_type">Workout Type:</label>
+                    <select id="workout_type" name="type" required>
+                        <option value="">Select Type</option>
+                        <option value="strength">Strength Training</option>
+                        <option value="cardio">Cardio</option>
+                        <option value="hiit">HIIT</option>
+                        <option value="flexibility">Flexibility/Yoga</option>
+                        <option value="sports">Sports</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="duration_minutes">Duration (minutes):</label>
+                    <input type="number" id="duration_minutes" name="duration_minutes" required>
+                </div>
+                <div>
+                    <label for="calories_burned_workout">Calories Burned (optional):</label>
+                    <input type="number" id="calories_burned_workout" name="calories_burned">
+                </div>
+                <div>
+                    <label for="workout_notes">Notes:</label>
+                    <textarea id="workout_notes" name="notes"></textarea>
+                </div>
+                <fieldset>
+                    <legend>Exercises (optional)</legend>
+                    <div id="exerciseEntries">
+                        <!-- Exercise entry template will be cloned here -->
+                    </div>
+                    <button type="button" id="addExerciseButton">Add Exercise</button>
+                </fieldset>
+                <button type="submit">Log Workout</button>
+            </form>
+        </section>
+        <hr>
+
+        <!-- Nutrition Log Form -->
+        <section id="logNutrition">
+            <h2>Log Nutrition</h2>
+            <form id="nutritionLogForm">
+                <div>
+                    <label for="nutrition_date">Date:</label>
+                    <input type="date" id="nutrition_date" name="date" required>
+                </div>
+                <div>
+                    <label for="meal_type">Meal Type:</label>
+                    <select id="meal_type" name="meal_type" required>
+                        <option value="">Select Meal</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="food_item_description">Food Item / Description:</label>
+                    <textarea id="food_item_description" name="food_item_description" required></textarea>
+                </div>
+                <div>
+                    <label for="calories_nutrition">Calories:</label>
+                    <input type="number" id="calories_nutrition" name="calories" required>
+                </div>
+                <div>
+                    <label for="protein_g">Protein (g) (optional):</label>
+                    <input type="number" step="0.1" id="protein_g" name="protein_g">
+                </div>
+                <div>
+                    <label for="carbs_g">Carbs (g) (optional):</label>
+                    <input type="number" step="0.1" id="carbs_g" name="carbs_g">
+                </div>
+                <div>
+                    <label for="fat_g">Fat (g) (optional):</label>
+                    <input type="number" step="0.1" id="fat_g" name="fat_g">
+                </div>
+                <button type="submit">Log Nutrition</button>
+            </form>
+        </section>
+        <hr>
+
+        <!-- Weight Log Form -->
+        <section id="logWeight">
+            <h2>Log Weight</h2>
+            <form id="weightLogForm">
+                <div>
+                    <label for="weight_date">Date:</label>
+                    <input type="date" id="weight_date" name="date" required>
+                </div>
+                <div>
+                    <label for="weight_kg">Weight (kg):</label>
+                    <input type="number" step="0.1" id="weight_kg" name="weight_kg" required>
+                </div>
+                <button type="submit">Log Weight</button>
+            </form>
+        </section>
+        <hr>
+        
+        <!-- Water Intake Log Form -->
+        <section id="logWater">
+            <h2>Log Water Intake</h2>
+            <form id="waterLogForm">
+                 <div>
+                    <label for="water_date">Date:</label>
+                    <input type="date" id="water_date" name="date" required>
+                </div>
+                <div>
+                    <label for="amount_ml">Amount (ml):</label>
+                    <input type="number" id="amount_ml" name="amount_ml" required>
+                </div>
+                <button type="submit">Log Water</button>
+            </form>
+        </section>
+    </div>
+    
+    <!-- Template for dynamic exercise entry -->
+    <template id="exerciseEntryTemplate">
+        <div>
+            <label>Exercise Name: <input type="text" name="exercise_name[]" placeholder="e.g., Bench Press"></label>
+            <label>Sets: <input type="number" name="sets[]" placeholder="e.g., 3"></label>
+            <label>Reps: <input type="number" name="reps[]" placeholder="e.g., 10"></label>
+            <label>Weight (kg): <input type="number" step="0.1" name="weight_kg[]" placeholder="e.g., 50"></label>
+            <label>Distance (km): <input type="number" step="0.1" name="distance_km[]" placeholder="e.g., 5"></label>
+            <label>Time (seconds): <input type="number" name="time_seconds[]" placeholder="e.g., 1800 for 30min"></label>
+            <button type="button" class="removeExerciseButton">Remove</button>
+        </div>
+    </template>
+
+    <script type="module" src="/js/supabaseClient.js"></script>
+    <script type="module" src="/js/apiService.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/tracking.js"></script>
+</body>
+</html>
