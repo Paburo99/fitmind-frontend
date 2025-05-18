@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logoutButton) logoutButton.style.display = 'none';
 
             // If not on login/register page, redirect to login
-            if (!window.location.pathname.endsWith('index.html') && 
-                !window.location.pathname.endsWith('register.html') &&
-                !window.location.pathname.endsWith('about.html') // Allow access to static pages
-                // !window.location.pathname.endsWith('terms.html') &&
-                // !window.location.pathname.endsWith('privacy.html')
-            ) {
+            const currentPath = window.location.pathname;
+            const isLoginPath = currentPath.endsWith('index.html') || currentPath === '/';
+            const isRegisterPath = currentPath.endsWith('register.html') || currentPath === '/register';
+            const isAboutPath = currentPath.endsWith('about.html') || currentPath === '/about';
+
+            if (!(isLoginPath || isRegisterPath || isAboutPath)) {
                 window.location.href = '/index.html'; // Or your login page path
             }
         }
