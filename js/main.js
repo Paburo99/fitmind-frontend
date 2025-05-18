@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logoutButton) logoutButton.style.display = 'block';
 
             // Redirect to dashboard if on login/register page and logged in
-            if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('register.html')) {
+            const currentPath = window.location.pathname;
+            const isLoginPath = currentPath.endsWith('index.html') || currentPath === '/';
+            const isRegisterPath = currentPath.endsWith('register.html') || currentPath === '/register';
+            if (isLoginPath || isRegisterPath) {
                  // Check if profile exists, if not, redirect to profile setup
                 checkProfileAndRedirect(session.user.id);
             }
