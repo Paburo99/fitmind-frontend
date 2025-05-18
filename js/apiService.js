@@ -47,3 +47,5 @@ async function makeApiRequest(endpoint, method = 'GET', body = null, requiresAut
         throw error; // Re-throw to be caught by caller
     }
 }
+
+export { makeApiRequest }
