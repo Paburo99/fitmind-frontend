@@ -69,10 +69,13 @@ async function checkProfileAndRedirect(userId) {
             return;
         }
         
-        if (!profile && (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('register.html'))) {
+        const currentPath = window.location.pathname;
+        const isLoginPath = currentPath.endsWith('index.html') || currentPath === '/';
+        const isRegisterPath = currentPath.endsWith('register.html') || currentPath === '/register';
+        if (!profile && (isLoginPath || isRegisterPath)) {
             console.log("Profile not found, redirecting to profile setup.");
             window.location.href = '/profile.html?setup=true';
-        } else if (profile && (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('register.html'))) {
+        } else if (profile && (isLoginPath || isRegisterPath)) {
             console.log("Profile found, redirecting to dashboard.");
             window.location.href = '/dashboard.html';
         }
