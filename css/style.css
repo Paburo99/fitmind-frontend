@@ -1,32 +1,44 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font stack */
     margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    padding: 0; /* Remove default padding */
+    background-color: #f8f9fa; /* Lighter background */
+    color: #343a40; /* Darker text for better contrast */
+    line-height: 1.6; /* Improved readability */
 }
+
 nav {
-    background-color: #333;
+    background-color: #343a40; /* Darker nav */
     color: white;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 15px 30px; /* Increased padding */
+    margin-bottom: 30px; /* Increased margin */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
 }
+
 nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
+    align-items: center; /* Vertically align items */
 }
+
 nav ul li {
-    margin-right: 15px;
+    margin-right: 20px; /* Increased spacing */
 }
+
 nav ul li a {
     color: white;
     text-decoration: none;
+    font-weight: 500; /* Slightly bolder links */
+    transition: color 0.3s ease; /* Smooth transition */
 }
+
 nav ul li a:hover, nav ul li button:hover {
-    text-decoration: underline;
+    color: #adb5bd; /* Lighter hover color */
+    text-decoration: none; /* Remove underline on hover for a cleaner look */
 }
+
 nav ul li button {
     background: none;
     border: none;
@@ -34,22 +46,40 @@ nav ul li button {
     cursor: pointer;
     font-size: 1em;
     padding: 0;
+    font-weight: 500; /* Match link weight */
+    transition: color 0.3s ease; /* Smooth transition */
 }
 
 .container {
     background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    padding: 30px; /* Increased padding */
+    border-radius: 8px; /* Softer corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Softer shadow */
+    margin: 0 auto 30px auto; /* Center container and add margin */
+    max-width: 960px; /* Max width for larger screens */
 }
+
 h1, h2 {
-    color: #333;
+    color: #212529; /* Darker headings */
+    margin-top: 0; /* Remove default top margin */
 }
+
+h1 {
+    font-size: 2.5em; /* Larger H1 */
+    margin-bottom: 0.75em;
+}
+
+h2 {
+    font-size: 1.75em; /* Larger H2 */
+    margin-bottom: 0.5em;
+}
+
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Increased margin */
+    font-weight: 500; /* Bolder labels */
 }
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -57,35 +87,102 @@ input[type="date"],
 input[type="number"],
 select,
 textarea {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 100%; /* Use 100% width and manage padding with box-sizing */
+    padding: 12px; /* Increased padding */
+    margin-bottom: 20px; /* Increased margin */
+    border: 1px solid #ced4da; /* Lighter border */
+    border-radius: 6px; /* Softer corners */
     box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
 }
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #80bdff; /* Highlight focus */
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Focus shadow */
+}
+
 button {
-    background-color: #5cb85c;
+    background-color: #007bff; /* Primary blue */
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px; /* Increased padding */
     border: none;
-    border-radius: 4px;
+    border-radius: 6px; /* Softer corners */
     cursor: pointer;
     font-size: 1em;
+    font-weight: 500; /* Bolder button text */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 }
+
 button:hover {
-    background-color: #4cae4c;
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
+
+button:active {
+    background-color: #004085; /* Even darker blue when active */
+    transform: translateY(0); /* Reset lift */
+}
+
 .error-message {
-    color: red;
-    margin-bottom: 10px;
+    color: #dc3545; /* Bootstrap danger color */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Reddish border */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
 }
+
 .success-message {
-    color: green;
-    margin-bottom: 10px;
+    color: #28a745; /* Bootstrap success color */
+    background-color: #d4edda; /* Light green background */
+    border: 1px solid #c3e6cb; /* Greenish border */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
 }
+
 #exerciseEntries div {
-    border: 1px solid #eee;
-    padding: 10px;
-    margin-bottom: 10px;
+    background-color: #f8f9fa; /* Light background for entries */
+    border: 1px solid #e9ecef; /* Lighter border */
+    padding: 15px; /* Increased padding */
+    margin-bottom: 15px; /* Increased margin */
+    border-radius: 6px; /* Softer corners */
+}
+
+/* Utility class for primary action buttons if needed */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Utility class for secondary/destructive action buttons */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Add some spacing for multiple buttons */
+button + button {
+    margin-left: 10px;
 }
