@@ -1,5 +1,5 @@
 // Base URL for your Flask API (Update in production to your Render URL)
-const API_BASE_URL = 'https://fitmind-backend-7pc1.onrender.com/api'; // e.g., https://your-app-name.onrender.com/api
+const API_BASE_URL = 'https://fitmind-backend-7pc1.onrender.com'; // e.g., https://your-app-name.onrender.com/api
 // For local development: const API_BASE_URL = 'http://127.0.0.1:10000/api';
 
 import { supabase } from './supabaseClient.js';
