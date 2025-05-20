@@ -186,9 +186,3 @@ button:active {
 button + button {
     margin-left: 10px;
 }
-
-.chart-container {
-    position: relative; /* Often good for positioning tooltips, etc. */
-    height: 400px; /* Or any specific height you want, e.g., 50vh */
-    width: 100%;   /* Or a specific width */
-}
