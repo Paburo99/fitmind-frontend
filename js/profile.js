@@ -16,10 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         profileTitle.textContent = 'Edit Your Profile';
     }
 
-    // Load existing profile data if not setup mode
-    if (!isSetup) {
-        await loadProfileData();
-    }
+    
+    await loadProfileData();
+
 
 
     profileForm.addEventListener('submit', async (e) => {
