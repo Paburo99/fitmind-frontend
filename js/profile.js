@@ -82,19 +82,19 @@ async function loadProfileData() {
 
         if (profileApiResponse) { // Check if profileApiResponse is not null/undefined
             // Populate form with data from the /profile endpoint
-            document.getElementById('username').value = profileApiResponse.username;
-            document.getElementById('date_of_birth').value = profileApiResponse.date_of_birth;
-            document.getElementById('gender').value = profileApiResponse.gender;
-            document.getElementById('height_cm').value = profileApiResponse.height_cm;
+            document.getElementById('username').value = profileApiResponse.username || '';
+            document.getElementById('date_of_birth').value = profileApiResponse.date_of_birth || '';
+            document.getElementById('gender').value = profileApiResponse.gender || '';
+            document.getElementById('height_cm').value = profileApiResponse.height_cm || '';
             
             // Initially set the weight field with initial_weight_kg from the profile
-            document.getElementById('initial_weight_kg').value = profileApiResponse.initial_weight_kg; 
+            document.getElementById('initial_weight_kg').value = profileApiResponse.initial_weight_kg || ''; 
             
-            document.getElementById('fitness_level').value = profileApiResponse.fitness_level;
-            document.getElementById('primary_goal').value = profileApiResponse.primary_goal;
-            document.getElementById('dietary_preferences').value = profileApiResponse.dietary_preferences;
-            document.getElementById('allergies_intolerances').value = profileApiResponse.allergies_intolerances;
-            document.getElementById('activity_level').value = profileApiResponse.activity_level;
+            document.getElementById('fitness_level').value = profileApiResponse.fitness_level || '';
+            document.getElementById('primary_goal').value = profileApiResponse.primary_goal || '';
+            document.getElementById('dietary_preferences').value = profileApiResponse.dietary_preferences || '';
+            document.getElementById('allergies_intolerances').value = profileApiResponse.allergies_intolerances || '';
+            document.getElementById('activity_level').value = profileApiResponse.activity_level || '';
             
             // Since loadProfileData is only called when !isSetup, the title is already 'Edit Your Profile'.
             // No need to set it again here.
