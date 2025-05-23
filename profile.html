@@ -79,8 +79,7 @@
             <div>
                 <label for="allergies_intolerances">Allergies/Intolerances (comma-separated):</label>
                 <input type="text" id="allergies_intolerances" name="allergies_intolerances">
-            </div>
-            <div>
+            </div>            <div>
                 <label for="activity_level">General Activity Level (excluding planned exercise):</label>
                 <select id="activity_level" name="activity_level" required>
                     <option value="">Select Activity Level</option>
@@ -91,6 +90,42 @@
                     <option value="extra_active">Extra Active (very hard exercise/physical job)</option>
                 </select>
             </div>
+            
+            <!-- Goal Setting Section -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd;">
+                <h3>Personal Goals</h3>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 1rem;">
+                    Set your personal targets to help track your progress on the dashboard.
+                </p>
+                
+                <div>
+                    <label for="weekly_workout_goal">Weekly Workout Goal:</label>
+                    <select id="weekly_workout_goal" name="weekly_workout_goal">
+                        <option value="1">1 workout per week</option>
+                        <option value="2">2 workouts per week</option>
+                        <option value="3">3 workouts per week</option>
+                        <option value="4">4 workouts per week</option>
+                        <option value="5" selected>5 workouts per week</option>
+                        <option value="6">6 workouts per week</option>
+                        <option value="7">7 workouts per week</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="daily_activity_goal">Daily Activity Goal:</label>
+                    <select id="daily_activity_goal" name="daily_activity_goal">
+                        <option value="1">1 activity per day</option>
+                        <option value="2">2 activities per day</option>
+                        <option value="3" selected>3 activities per day</option>
+                        <option value="4">4 activities per day</option>
+                        <option value="5">5 activities per day</option>
+                    </select>
+                    <small style="display: block; color: #666; margin-top: 0.3rem;">
+                        Activities include workouts, nutrition logging, water logging, etc.
+                    </small>
+                </div>
+            </div>
+            
             <button type="submit" id="saveProfileButton">Save Profile</button>
         </form>
         <div id="profileMessage" style="display:none;"></div>

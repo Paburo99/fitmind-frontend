@@ -26,20 +26,107 @@
         <div id="userEmailDisplay"></div>
     </header>    <div class="container">
         <h1>Your Progress & Insights</h1>
-        <div id="progressMessage" style="display:none;"></div>
-
-        <!-- Motivational Streak Counter -->
+        <div id="progressMessage" style="display:none;"></div>        <!-- Motivational Streak Counter -->
         <div class="streak-counter mb-4">
-            <span class="number" id="streakNumber">7</span>
-            <span class="label">Day Streak!</span>
-        </div>
-
-        <!-- Weight Progress Chart -->
+            <span class="number" id="streakNumber">0</span>
+            <span class="label" id="streakLabel">Start your streak!</span>
+        </div>        <!-- Weight Progress Chart -->
         <section class="chart-section">
             <h2>Weight Trend</h2>
+            <div class="chart-controls mb-3">
+                <select id="weightDateRange" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 3 Months</option>
+                    <option value="180">Last 6 Months</option>
+                    <option value="365">Last Year</option>
+                    <option value="all">All Time</option>
+                </select>
+                <button id="refreshWeightChart" class="btn-secondary">Refresh</button>
+            </div>
             <canvas id="weightChart" width="400" height="200"></canvas>
             <p id="noWeightDataMessage" style="display:none;" class="text-center">
                 No weight data logged yet to display a chart. Start tracking to see your progress!
+            </p>
+        </section>        <!-- Workout Progress Chart -->
+        <section class="chart-section">
+            <h2>Workout Progress</h2>
+            <div class="chart-controls mb-3">
+                <select id="workoutTimeframe" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 3 Months</option>
+                    <option value="all">All Time</option>
+                </select>
+                <button id="refreshWorkoutChart" class="btn-secondary">Refresh</button>
+            </div>
+            <canvas id="workoutChart" width="400" height="200"></canvas>
+            <p id="noWorkoutDataMessage" style="display:none;" class="text-center">
+                No workout data logged yet. Start logging workouts to see your progress!
+            </p>
+        </section>        <!-- Water Intake Chart -->
+        <section class="chart-section">
+            <h2>Water Intake Tracking</h2>
+            <div class="chart-controls mb-3">
+                <select id="waterTimeframe" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 3 Months</option>
+                    <option value="all">All Time</option>
+                </select>
+                <button id="refreshWaterChart" class="btn-secondary">Refresh</button>
+            </div>
+            <canvas id="waterChart" width="400" height="200"></canvas>
+            <p id="noWaterDataMessage" style="display:none;" class="text-center">
+                No water intake data logged yet. Start tracking your daily hydration!
+            </p>
+        </section>        <!-- Activity Type Distribution Chart -->
+        <section class="chart-section">
+            <h2>Activity Type Distribution</h2>
+            <div class="chart-controls mb-3">
+                <select id="activityTimeframe" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 3 Months</option>
+                    <option value="all">All Time</option>
+                </select>
+                <button id="refreshActivityChart" class="btn-secondary">Refresh</button>
+            </div>
+            <canvas id="activityChart" width="400" height="200"></canvas>
+            <p id="noActivityDataMessage" style="display:none;" class="text-center">
+                No activity data logged yet. Start logging different types of workouts!
+            </p>
+        </section>        <!-- Calories Burned Chart -->
+        <section class="chart-section">
+            <h2>Calories Burned Trend</h2>
+            <div class="chart-controls mb-3">
+                <select id="caloriesTimeframe" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 3 Months</option>
+                    <option value="all">All Time</option>
+                </select>
+                <button id="refreshCaloriesChart" class="btn-secondary">Refresh</button>
+            </div>
+            <canvas id="caloriesChart" width="400" height="200"></canvas>
+            <p id="noCaloriesDataMessage" style="display:none;" class="text-center">
+                No calories data logged yet. Start logging workouts with calorie burn information!
+            </p>
+        </section>
+
+        <!-- Nutrition Overview Chart -->
+        <section class="chart-section">
+            <h2>Nutrition Overview</h2>
+            <div class="chart-controls mb-3">
+                <select id="nutritionMetric" class="form-control" style="width: auto; display: inline-block;">
+                    <option value="calories">Daily Calories</option>
+                    <option value="macros">Macronutrient Breakdown</option>
+                    <option value="goals">Calories vs Goals</option>
+                </select>
+                <button id="refreshNutritionChart" class="btn-secondary">Refresh</button>
+            </div>
+            <canvas id="nutritionChart" width="400" height="200"></canvas>
+            <p id="noNutritionDataMessage" style="display:none;" class="text-center">
+                No nutrition data logged yet. Start tracking your meals to see insights!
             </p>
         </section>
 
@@ -54,15 +141,12 @@
             <div id="insightsArea">
                 Click the button above to generate personalized insights based on your recent activity and progress patterns.
             </div>
-        </section>
-
-        <!-- Achievement Section -->
+        </section>        <!-- Achievement Section -->
         <section>
             <h2>Recent Achievements</h2>
             <div id="achievementsDisplay">
-                <div class="achievement-badge">First Workout Logged</div>
-                <div class="achievement-badge">3-Day Streak</div>
-                <div class="achievement-badge">Week 1 Complete</div>
+                <!-- Dynamic achievements will be loaded here -->
+                <p class="text-center" id="noAchievementsMessage">Complete your first activity to unlock achievements!</p>
             </div>
         </section>
     </div>

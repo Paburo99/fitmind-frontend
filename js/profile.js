@@ -25,11 +25,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     profileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(profileForm);
-        const profileData = {};
-        for (let [key, value] of formData.entries()) {
+        const profileData = {};        for (let [key, value] of formData.entries()) {
             // Convert numbers where appropriate
             if (key === 'height_cm' || key === 'initial_weight_kg') {
                 profileData[key] = parseFloat(value) || null;
+            } else if (key === 'weekly_workout_goal' || key === 'daily_activity_goal') {
+                profileData[key] = parseInt(value) || null;
             } else {
                 profileData[key] = value;
             }
@@ -91,10 +92,13 @@ async function loadProfileData() {
             document.getElementById('initial_weight_kg').value = profileApiResponse.initial_weight_kg || ''; 
             
             document.getElementById('fitness_level').value = profileApiResponse.fitness_level || '';
-            document.getElementById('primary_goal').value = profileApiResponse.primary_goal || '';
-            document.getElementById('dietary_preferences').value = profileApiResponse.dietary_preferences || '';
+            document.getElementById('primary_goal').value = profileApiResponse.primary_goal || '';            document.getElementById('dietary_preferences').value = profileApiResponse.dietary_preferences || '';
             document.getElementById('allergies_intolerances').value = profileApiResponse.allergies_intolerances || '';
             document.getElementById('activity_level').value = profileApiResponse.activity_level || '';
+            
+            // Populate goal fields
+            document.getElementById('weekly_workout_goal').value = profileApiResponse.weekly_workout_goal || '5';
+            document.getElementById('daily_activity_goal').value = profileApiResponse.daily_activity_goal || '3';
             
             // Since loadProfileData is only called when !isSetup, the title is already 'Edit Your Profile'.
             // No need to set it again here.

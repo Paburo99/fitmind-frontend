@@ -24,27 +24,56 @@ function updateDashboardCards(summary) {
     const todayWorkouts = document.getElementById('todayWorkouts');
     if (todayWorkouts) {
         todayWorkouts.textContent = summary.workouts_today_count || 0;
-    }
-
-    // Update Weekly Progress (calculate percentage based on goals)
+    }    // Update Weekly Progress (calculate percentage based on goals)
     const weeklyProgress = document.getElementById('weeklyProgress');
     if (weeklyProgress) {
-        const targetWorkouts = 5; // Example target
+        const targetWorkouts = summary.target_workouts_weekly || 5; // Default to 5 if not provided by backend
         const currentWorkouts = summary.workouts_this_week || 0;
-        const percentage = Math.min(Math.round((currentWorkouts / targetWorkouts) * 100), 100);
-        weeklyProgress.textContent = percentage + '%';
+        if (targetWorkouts > 0) {
+            const percentage = Math.min(Math.round((currentWorkouts / targetWorkouts) * 100), 100);
+            weeklyProgress.textContent = `${percentage}%`;
+            // Add helpful label showing progress
+            const weeklyProgressLabel = weeklyProgress.parentElement.querySelector('.metric-label');
+            if (weeklyProgressLabel) {
+                weeklyProgressLabel.textContent = `${currentWorkouts} / ${targetWorkouts} workouts`;
+            }
+        } else {
+            weeklyProgress.textContent = 'Set Goal';
+            const weeklyProgressLabel = weeklyProgress.parentElement.querySelector('.metric-label');
+            if (weeklyProgressLabel) {
+                weeklyProgressLabel.textContent = 'No weekly goal set';
+            }
+        }
     }
 
     // Update Current Streak
     const currentStreak = document.getElementById('currentStreak');
     if (currentStreak) {
-        currentStreak.textContent = summary.current_streak || 0;
+        const streakValue = summary.current_streak || 0;
+        currentStreak.textContent = streakValue;
+        // Update label for better UX
+        const streakLabel = currentStreak.parentElement.querySelector('.metric-label');
+        if (streakLabel) {
+            if (streakValue === 0) {
+                streakLabel.textContent = 'Start your streak!';
+            } else {
+                streakLabel.textContent = streakValue === 1 ? 'Day Active' : 'Days Active';
+            }
+        }
     }
 
     // Update Total Calories
     const totalCalories = document.getElementById('totalCalories');
     if (totalCalories) {
-        totalCalories.textContent = summary.calories_burned_this_week || 0;
+        const caloriesValue = summary.calories_burned_this_week || 0;
+        totalCalories.textContent = caloriesValue.toLocaleString();
+        // Add motivational messaging for zero state
+        if (caloriesValue === 0) {
+            const caloriesLabel = totalCalories.parentElement.querySelector('.metric-label');
+            if (caloriesLabel) {
+                caloriesLabel.textContent = 'Log workouts to track calories';
+            }
+        }
     }
 }
 
@@ -53,23 +82,28 @@ function updateProgressBar(summary) {
     const progressText = document.getElementById('progressText');
     
     if (progressBar && progressText) {
-        const dailyGoal = 3; // Example: 3 activities per day
+        const dailyGoal = summary.target_activities_daily || 3; // Default to 3 if not provided by backend
         const completed = (summary.workouts_today_count || 0) + 
                          (summary.nutrition_logs_today || 0) + 
                          (summary.water_logs_today || 0);
         
-        const percentage = Math.min(Math.round((completed / dailyGoal) * 100), 100);
+        let percentage = 0;
+        if (dailyGoal > 0) {
+            percentage = Math.min(Math.round((completed / dailyGoal) * 100), 100);
+        }
         
         progressBar.style.width = percentage + '%';
         
-        if (percentage === 0) {
-            progressText.textContent = "Get started with your first activity! 🚀";
+        if (dailyGoal === 0) {
+            progressText.textContent = "Set daily goals in your profile! ✨";
+        } else if (percentage === 0) {
+            progressText.textContent = `Ready to start! 0/${dailyGoal} activities completed. Let's go! 🚀`;
         } else if (percentage < 50) {
-            progressText.textContent = `Great start! ${percentage}% of daily goal completed 💪`;
+            progressText.textContent = `Great start! ${completed}/${dailyGoal} activities (${percentage}%) 💪`;
         } else if (percentage < 100) {
-            progressText.textContent = `Awesome progress! ${percentage}% completed - keep going! 🔥`;
+            progressText.textContent = `Awesome progress! ${completed}/${dailyGoal} activities (${percentage}%) 🔥`;
         } else {
-            progressText.textContent = "Daily goal achieved! You're crushing it! 🏆";
+            progressText.textContent = `Daily goal crushed! ${completed}/${dailyGoal} activities completed! 🏆`;
         }
     }
 }
