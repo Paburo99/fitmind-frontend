@@ -22,27 +22,44 @@
             </ul>
         </nav>
          <div id="userEmailDisplay"></div>
-    </header>
-
-    <div class="container">
-        <h1>Register for FitTrack AI</h1>
+    </header>    <div class="container">
+        <h1>Join FitMind Today</h1>
+        <p class="text-center mb-4" style="font-size: 1.1rem; color: var(--text-secondary);">
+            Start your personalized fitness journey with AI-powered insights 💪
+        </p>
+        
         <form id="registerForm">
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
             </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" minlength="6" required>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="6" required placeholder="Minimum 6 characters">
             </div>
-            <div>
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter your password">
             </div>
-            <button type="submit">Register</button>
+            <div class="button-group">
+                <button type="submit" class="btn-primary btn-large">
+                    🚀 Create My Account
+                </button>
+            </div>
         </form>
+        
         <div id="registerMessage" style="display:none;"></div>
-        <p>Already have an account? <a href="/index.html">Login here</a>.</p>
+        
+        <div class="text-center mt-4">
+            <p>Already have an account? 
+                <a href="/index.html" style="font-weight: 600;">Sign in here</a>
+            </p>
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+                By creating an account, you agree to our 
+                <a href="/terms.html">Terms of Service</a> and 
+                <a href="/privacy.html">Privacy Policy</a>
+            </p>
+        </div>
     </div>
 
     <script type="module" src="/js/supabaseClient.js"></script>

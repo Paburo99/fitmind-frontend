@@ -20,52 +20,56 @@
             </ul>
         </nav>
         <div id="userEmailDisplay"></div>
-    </header>
-
-    <div class="container">
-        <h1>Log Your Activities & Nutrition</h1>
+    </header>    <div class="container">
+        <h1>Track Your Fitness Journey</h1>
         <div id="trackingMessage" style="display:none;"></div>
 
         <!-- Workout Log Form -->
         <section id="logWorkout">
-            <h2>Log Workout</h2>
+            <h2>💪 Log Workout</h2>
             <form id="workoutLogForm">
-                <div>
-                    <label for="workout_date">Date:</label>
+                <div class="form-group">
+                    <label for="workout_date">Workout Date</label>
                     <input type="date" id="workout_date" name="date" required>
                 </div>
-                <div>
-                    <label for="workout_type">Workout Type:</label>
+                <div class="form-group">
+                    <label for="workout_type">Workout Type</label>
                     <select id="workout_type" name="type" required>
                         <option value="">Select Type</option>
-                        <option value="strength">Strength Training</option>
-                        <option value="cardio">Cardio</option>
-                        <option value="hiit">HIIT</option>
-                        <option value="flexibility">Flexibility/Yoga</option>
-                        <option value="sports">Sports</option>
-                        <option value="other">Other</option>
+                        <option value="strength">💪 Strength Training</option>
+                        <option value="cardio">🏃 Cardio</option>
+                        <option value="hiit">⚡ HIIT</option>
+                        <option value="flexibility">🧘 Flexibility/Yoga</option>
+                        <option value="sports">⚽ Sports</option>
+                        <option value="other">🔄 Other</option>
                     </select>
                 </div>
-                <div>
-                    <label for="duration_minutes">Duration (minutes):</label>
-                    <input type="number" id="duration_minutes" name="duration_minutes" required>
+                <div class="form-group">
+                    <label for="duration_minutes">Duration (minutes)</label>
+                    <input type="number" id="duration_minutes" name="duration_minutes" required placeholder="e.g., 45">
                 </div>
-                <div>
-                    <label for="calories_burned_workout">Calories Burned (optional):</label>
-                    <input type="number" id="calories_burned_workout" name="calories_burned">
+                <div class="form-group">
+                    <label for="calories_burned_workout">Calories Burned (optional)</label>
+                    <input type="number" id="calories_burned_workout" name="calories_burned" placeholder="e.g., 300">
                 </div>
-                <div>
-                    <label for="workout_notes">Notes:</label>
-                    <textarea id="workout_notes" name="notes"></textarea>
+                <div class="form-group">
+                    <label for="workout_notes">Workout Notes</label>
+                    <textarea id="workout_notes" name="notes" placeholder="How did it feel? Any observations..."></textarea>
                 </div>
                 <fieldset>
-                    <legend>Exercises (optional)</legend>
+                    <legend>💥 Exercises (optional)</legend>
                     <div id="exerciseEntries">
                         <!-- Exercise entry template will be cloned here -->
                     </div>
-                    <button type="button" id="addExerciseButton">Add Exercise</button>
+                    <button type="button" id="addExerciseButton" class="btn-outline btn-small">
+                        ➕ Add Exercise
+                    </button>
                 </fieldset>
-                <button type="submit">Log Workout</button>
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">
+                        🏋️ Log Workout
+                    </button>
+                </div>
             </form>
         </section>
         <hr>

@@ -24,25 +24,45 @@
             </ul>
         </nav>
         <div id="userEmailDisplay"></div>
-    </header>
-
-    <div class="container">
+    </header>    <div class="container">
         <h1>Your Progress & Insights</h1>
         <div id="progressMessage" style="display:none;"></div>
 
+        <!-- Motivational Streak Counter -->
+        <div class="streak-counter mb-4">
+            <span class="number" id="streakNumber">7</span>
+            <span class="label">Day Streak!</span>
+        </div>
+
+        <!-- Weight Progress Chart -->
         <section class="chart-section">
             <h2>Weight Trend</h2>
             <canvas id="weightChart" width="400" height="200"></canvas>
-            <p id="noWeightDataMessage" style="display:none;">No weight data logged yet to display a chart.</p>
+            <p id="noWeightDataMessage" style="display:none;" class="text-center">
+                No weight data logged yet to display a chart. Start tracking to see your progress!
+            </p>
         </section>
-        <hr>
-        <!-- Add more sections for other charts: e.g., calorie intake, workout frequency -->
-        
+
+        <!-- AI Insights Section -->
         <section>
             <h2>AI-Powered Insights</h2>
-            <button id="generateInsightsButton">Generate Insights</button>
-            <div id="insightsArea" style="margin-top: 10px; white-space: pre-wrap; background-color: #f9f9f9; padding:10px; border-radius:4px;">
-                Click the button to generate insights based on your recent activity.
+            <div class="button-group mb-3">
+                <button id="generateInsightsButton" class="btn-primary">
+                    🧠 Generate Insights
+                </button>
+            </div>
+            <div id="insightsArea">
+                Click the button above to generate personalized insights based on your recent activity and progress patterns.
+            </div>
+        </section>
+
+        <!-- Achievement Section -->
+        <section>
+            <h2>Recent Achievements</h2>
+            <div id="achievementsDisplay">
+                <div class="achievement-badge">First Workout Logged</div>
+                <div class="achievement-badge">3-Day Streak</div>
+                <div class="achievement-badge">Week 1 Complete</div>
             </div>
         </section>
     </div>

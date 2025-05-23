@@ -20,21 +20,67 @@
             </ul>
         </nav>
         <div id="userEmailDisplay"></div>
-    </header>
-
-    <div class="container">
-        <h1>Welcome to Your Dashboard</h1>
+    </header>    <div class="container">
+        <h1>Welcome to Your FitMind Dashboard</h1>
+        
+        <!-- Dashboard Summary Cards -->
         <div id="dashboardSummary">
-            <p>Loading summary...</p>
+            <div class="summary-card">
+                <h3>Today's Workouts</h3>
+                <div class="metric" id="todayWorkouts">0</div>
+                <div class="metric-label">Sessions Completed</div>
+            </div>
+            <div class="summary-card">
+                <h3>Weekly Progress</h3>
+                <div class="metric" id="weeklyProgress">0%</div>
+                <div class="metric-label">Goal Achievement</div>
+            </div>
+            <div class="summary-card">
+                <h3>Current Streak</h3>
+                <div class="metric" id="currentStreak">0</div>
+                <div class="metric-label">Days Active</div>
+            </div>
+            <div class="summary-card">
+                <h3>Total Calories</h3>
+                <div class="metric" id="totalCalories">0</div>
+                <div class="metric-label">Burned This Week</div>
+            </div>
         </div>
-        <div id="quickActions">
+
+        <!-- Achievement Badges -->
+        <div id="achievementBadges" style="margin-bottom: 2rem;">
+            <!-- Dynamic badges will be added here -->
+        </div>
+
+        <!-- Quick Actions -->
+        <section id="quickActions">
             <h2>Quick Actions</h2>
-            <button onclick="window.location.href='/track_data.html#logWorkout'">Log Workout</button>
-            <button onclick="window.location.href='/track_data.html#logNutrition'">Log Nutrition</button>
-            <button onclick="window.location.href='/track_data.html#logWeight'">Log Weight</button>
-            <button onclick="window.location.href='/track_data.html#logWater'">Log Water</button>
-        </div>
-         <div id="dashboardMessage" style="display:none;"></div>
+            <div class="button-group">
+                <button class="btn-primary" onclick="window.location.href='/track_data.html#logWorkout'">
+                    💪 Log Workout
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='/track_data.html#logNutrition'">
+                    🥗 Log Nutrition
+                </button>
+                <button class="btn-success" onclick="window.location.href='/track_data.html#logWeight'">
+                    ⚖️ Log Weight
+                </button>
+                <button class="btn-outline" onclick="window.location.href='/track_data.html#logWater'">
+                    💧 Log Water
+                </button>
+            </div>
+        </section>
+
+        <!-- Progress Bar -->
+        <section>
+            <h2>Today's Goal Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="dailyProgressBar" style="width: 0%"></div>
+            </div>
+            <p id="progressText">Get started with your first activity!</p>
+        </section>
+
+        <div id="dashboardMessage" style="display:none;"></div>
     </div>
 
     <script type="module" src="/js/supabaseClient.js"></script>
