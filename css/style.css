@@ -599,10 +599,41 @@ button + button {
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-md);
     margin-bottom: 2rem;
+    overflow: hidden; /* Prevent chart overflow */
+    display: flex;
+    flex-direction: column;
 }
 
-.chart-section canvas {
+.chart-section h2 {
+    margin-bottom: 1rem;
+    flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+.chart-section .chart-controls {
+    flex-shrink: 0; /* Prevent controls from shrinking */
+    margin-bottom: 1rem;
+}
+
+/* Chart wrapper to provide proper container */
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    flex: 1; /* Take remaining space */
+    min-height: 200px; /* Ensure minimum height */
+    max-height: 300px; /* Prevent excessive height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure canvas stays within wrapper */
+.chart-wrapper canvas {
     border-radius: var(--radius-md);
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 /* Insights Area */
@@ -725,11 +756,13 @@ legend {
     button + button {
         margin-left: 0;
         margin-top: 0.5rem;
-    }
-    
-    .chart-section {
+    }    .chart-section {
         height: 300px;
         padding: 1rem;
+    }
+    
+    .chart-wrapper {
+        max-height: 250px; /* Reduced height for tablet */
     }
 }
 
@@ -745,11 +778,14 @@ legend {
     
     input, textarea, select, button {
         font-size: 16px; /* Prevent zoom on iOS */
-    }
-    
-    .chart-section {
+    }    .chart-section {
         height: 250px;
         padding: 0.5rem;
+    }
+    
+    .chart-wrapper {
+        max-height: 200px; /* Reduced height for mobile */
+        min-height: 150px; /* Smaller minimum for mobile */
     }
 }
 
