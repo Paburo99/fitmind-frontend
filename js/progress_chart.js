@@ -384,30 +384,54 @@ function renderWorkoutChart(data, timeframe) {
         labels: groupedData.map(item => item.period),
         datasets: [
             {
-                label: 'Workouts Count',
+                label: 'Workout Sessions',
                 data: groupedData.map(item => item.count),
-                borderColor: 'rgb(59, 130, 246)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.1,
+                borderColor: 'rgb(99, 102, 241)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.05)');
+                    return gradient;
+                },
+                borderWidth: 3,
+                tension: 0.4,
                 fill: true,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointBackgroundColor: 'rgb(99, 102, 241)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointHoverBackgroundColor: 'rgb(79, 70, 229)',
+                shadowOffsetX: 3,
+                shadowOffsetY: 3,
+                shadowBlur: 10,
+                shadowColor: 'rgba(99, 102, 241, 0.3)'
             },
             {
-                label: 'Total Duration (hours)',
+                label: 'Duration (hours)',
                 data: groupedData.map(item => item.totalDuration / 60), // Convert minutes to hours
-                borderColor: 'rgb(34, 197, 94)',
-                backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                tension: 0.1,
+                borderColor: 'rgb(16, 185, 129)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(16, 185, 129, 0.2)');
+                    gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+                    return gradient;
+                },
+                borderWidth: 3,
+                tension: 0.4,
                 fill: false,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                yAxisID: 'y1'
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointBackgroundColor: 'rgb(16, 185, 129)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointHoverBackgroundColor: 'rgb(5, 150, 105)',
+                yAxisID: 'y1',
+                borderDash: [0],
+                pointStyle: 'rectRot'
             }
         ]
-    };
-
-    workoutChartInstance = new Chart(ctx, {
+    };    workoutChartInstance = new Chart(ctx, {
         type: 'line',
         data: chartData,
         options: {
@@ -419,15 +443,35 @@ function renderWorkoutChart(data, timeframe) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(99, 102, 241, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: {
+                        title: function(context) {
+                            return `📅 ${context[0].label}`;
+                        },
                         label: function(context) {
                             if (context.datasetIndex === 0) {
-                                return `Workouts: ${context.parsed.y}`;
+                                return `💪 Sessions: ${context.parsed.y}`;
                             } else {
-                                return `Duration: ${context.parsed.y.toFixed(1)} hours`;
+                                return `⏱️ Duration: ${context.parsed.y.toFixed(1)} hours`;
                             }
                         }
                     }
@@ -435,16 +479,48 @@ function renderWorkoutChart(data, timeframe) {
             },
             scales: {
                 x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: timeframe === '7' ? 'Days' : timeframe === '30' ? 'Weeks' : 'Months'
+                        text: timeframe === '7' ? '📅 Days' : timeframe === '30' ? '📅 Weeks' : '📅 Months',
+                        color: '#374151',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(99, 102, 241, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Workout Count'
+                        text: '💪 Workout Sessions',
+                        color: 'rgb(99, 102, 241)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y1: {
@@ -452,13 +528,31 @@ function renderWorkoutChart(data, timeframe) {
                     display: true,
                     position: 'right',
                     beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Duration (hours)'
-                    },
                     grid: {
                         drawOnChartArea: false,
+                        color: 'rgba(16, 185, 129, 0.1)'
                     },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '⏱️ Duration (hours)',
+                        color: 'rgb(16, 185, 129)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    hoverBorderWidth: 4
                 }
             }
         }
@@ -547,22 +641,55 @@ function renderWaterChart(data, timeframe) {
 
     // Group water intake by day
     const groupedData = groupWaterByDay(data);
+    
+    // Calculate daily goal (2000ml recommended)
+    const dailyGoal = 2000;
+    const goalData = groupedData.map(() => dailyGoal);
 
     const chartData = {
         labels: groupedData.map(item => item.date),
-        datasets: [{
-            label: 'Daily Water Intake (ml)',
-            data: groupedData.map(item => item.totalAmount),
-            borderColor: 'rgb(59, 130, 246)',
-            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-            tension: 0.1,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6
-        }]
-    };
-
-    waterChartInstance = new Chart(ctx, {
+        datasets: [
+            {
+                label: 'Daily Water Intake',
+                data: groupedData.map(item => item.totalAmount),
+                borderColor: 'rgb(59, 130, 246)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+                    gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.2)');
+                    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.05)');
+                    return gradient;
+                },
+                borderWidth: 4,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 8,
+                pointHoverRadius: 12,
+                pointBackgroundColor: (context) => {
+                    const value = context.parsed.y;
+                    if (value >= dailyGoal) return 'rgb(34, 197, 94)'; // Green for goal reached
+                    if (value >= dailyGoal * 0.8) return 'rgb(245, 158, 11)'; // Yellow for close to goal
+                    return 'rgb(239, 68, 68)'; // Red for below goal
+                },
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 3,
+                pointHoverBackgroundColor: 'rgb(29, 78, 216)',
+                pointStyle: 'circle'
+            },
+            {
+                label: 'Daily Goal (2L)',
+                data: goalData,
+                borderColor: 'rgba(34, 197, 94, 0.8)',
+                backgroundColor: 'transparent',
+                borderWidth: 3,
+                borderDash: [10, 5],
+                tension: 0,
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0
+            }
+        ]
+    };    waterChartInstance = new Chart(ctx, {
         type: 'line',
         data: chartData,
         options: {
@@ -574,29 +701,101 @@ function renderWaterChart(data, timeframe) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(59, 130, 246, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: {
+                        title: function(context) {
+                            return `💧 ${context[0].label}`;
+                        },
                         label: function(context) {
-                            return `Water: ${context.parsed.y} ml`;
+                            if (context.datasetIndex === 0) {
+                                const value = context.parsed.y;
+                                const percentage = ((value / 2000) * 100).toFixed(0);
+                                const status = value >= 2000 ? '🎯 Goal Reached!' : 
+                                             value >= 1600 ? '👍 Close to goal' : '📈 Keep going!';
+                                return [`💧 Water: ${value} ml`, `📊 ${percentage}% of goal`, status];
+                            } else {
+                                return `🎯 Daily Goal: ${context.parsed.y} ml`;
+                            }
                         }
                     }
                 }
             },
             scales: {
                 x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Date'
+                        text: '📅 Date',
+                        color: '#374151',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y: {
                     beginAtZero: true,
+                    max: 3000, // Set a reasonable max for water intake
+                    grid: {
+                        color: 'rgba(59, 130, 246, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        callback: function(value) {
+                            if (value >= 1000) {
+                                return (value / 1000).toFixed(1) + 'L';
+                            }
+                            return value + 'ml';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Water Intake (ml)'
+                        text: '💧 Water Intake',
+                        color: 'rgb(59, 130, 246)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
+                }
+            },
+            elements: {
+                point: {
+                    hoverBorderWidth: 4
                 }
             }
         }
@@ -677,50 +876,137 @@ function renderActivityTypeChart(data) {
         activityTypes[type]++;
     });
 
-    const chartData = {
-        labels: Object.keys(activityTypes),
-        datasets: [{
-            label: 'Activity Frequency',
-            data: Object.values(activityTypes),
-            backgroundColor: [
-                'rgba(59, 130, 246, 0.8)',
-                'rgba(34, 197, 94, 0.8)',
-                'rgba(168, 85, 247, 0.8)',
-                'rgba(249, 115, 22, 0.8)',
-                'rgba(239, 68, 68, 0.8)',
-                'rgba(156, 163, 175, 0.8)'
-            ],
-            borderColor: [
-                'rgb(59, 130, 246)',
-                'rgb(34, 197, 94)',
-                'rgb(168, 85, 247)',
-                'rgb(249, 115, 22)',
-                'rgb(239, 68, 68)',
-                'rgb(156, 163, 175)'
-            ],
-            borderWidth: 2
-        }]
-    };
+    // Enhanced color palette with gradients
+    const colorPalette = [
+        {
+            bg: 'rgba(139, 69, 19, 0.8)',     // Strength - Brown
+            border: 'rgb(139, 69, 19)',
+            emoji: '💪'
+        },
+        {
+            bg: 'rgba(220, 38, 127, 0.8)',    // Cardio - Pink
+            border: 'rgb(220, 38, 127)',
+            emoji: '🏃'
+        },
+        {
+            bg: 'rgba(251, 146, 60, 0.8)',    // HIIT - Orange
+            border: 'rgb(251, 146, 60)',
+            emoji: '⚡'
+        },
+        {
+            bg: 'rgba(34, 197, 94, 0.8)',     // Flexibility - Green
+            border: 'rgb(34, 197, 94)',
+            emoji: '🧘'
+        },
+        {
+            bg: 'rgba(99, 102, 241, 0.8)',    // Sports - Indigo
+            border: 'rgb(99, 102, 241)',
+            emoji: '⚽'
+        },
+        {
+            bg: 'rgba(156, 163, 175, 0.8)',   // Other - Gray
+            border: 'rgb(156, 163, 175)',
+            emoji: '🔄'
+        }
+    ];
 
-    activityChartInstance = new Chart(ctx, {
+    const labels = Object.keys(activityTypes);
+    const chartData = {
+        labels: labels.map((label, index) => {
+            const color = colorPalette[index % colorPalette.length];
+            return `${color.emoji} ${label.charAt(0).toUpperCase() + label.slice(1)}`;
+        }),
+        datasets: [{
+            label: 'Workout Distribution',
+            data: Object.values(activityTypes),
+            backgroundColor: labels.map((_, index) => {
+                const color = colorPalette[index % colorPalette.length];
+                return color.bg;
+            }),
+            borderColor: labels.map((_, index) => {
+                const color = colorPalette[index % colorPalette.length];
+                return color.border;
+            }),
+            borderWidth: 3,
+            hoverBorderWidth: 5,
+            hoverOffset: 15
+        }]
+    };    activityChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: chartData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '60%',
             plugins: {
                 legend: {
                     display: true,
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 15,
+                        font: {
+                            size: 13,
+                            weight: '500'
+                        },
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, index) => {
+                                    return {
+                                        text: label,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        strokeStyle: data.datasets[0].borderColor[index],
+                                        lineWidth: 2,
+                                        pointStyle: 'circle'
+                                    };
+                                });
+                            }
+                            return [];
+                        }
+                    }
                 },
-                tooltip: {                    callbacks: {
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(99, 102, 241, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            return `🏋️ Activity Breakdown`;
+                        },
                         label: function(context) {
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
                             const percentage = ((context.parsed / total) * 100).toFixed(1);
-                            return `${context.label}: ${context.parsed} sessions (${percentage}%)`;
+                            const sessions = context.parsed;
+                            const sessionText = sessions === 1 ? 'session' : 'sessions';
+                            return [
+                                `${context.label}`,
+                                `📊 ${sessions} ${sessionText} (${percentage}%)`,
+                                `🎯 ${((context.parsed / total) * 100).toFixed(0)}% of total workouts`
+                            ];
                         }
                     }
                 }
+            },
+            elements: {
+                arc: {
+                    borderWidth: 3,
+                    hoverBorderWidth: 5
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1000
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
             }
         }
     });
@@ -774,18 +1060,58 @@ function renderCaloriesBurnedChart(data, timeframe) {
     // Group calories by period (day/week based on timeframe)
     const groupedData = groupCaloriesByPeriod(data, timeframe);
 
+    // Calculate average calories for reference line
+    const totalCalories = groupedData.reduce((sum, item) => sum + item.totalCalories, 0);
+    const averageCalories = totalCalories / groupedData.length || 0;
+    const averageData = groupedData.map(() => averageCalories);
+
     const chartData = {
         labels: groupedData.map(item => item.period),
-        datasets: [{
-            label: 'Calories Burned',
-            data: groupedData.map(item => item.totalCalories),
-            borderColor: 'rgb(239, 68, 68)',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            tension: 0.1,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6
-        }]
+        datasets: [
+            {
+                label: 'Calories Burned',
+                data: groupedData.map(item => item.totalCalories),
+                borderColor: 'rgb(239, 68, 68)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(239, 68, 68, 0.4)');
+                    gradient.addColorStop(0.6, 'rgba(239, 68, 68, 0.2)');
+                    gradient.addColorStop(1, 'rgba(239, 68, 68, 0.05)');
+                    return gradient;
+                },
+                borderWidth: 4,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 8,
+                pointHoverRadius: 12,
+                pointBackgroundColor: (context) => {
+                    const value = context.parsed.y;
+                    if (value >= averageCalories * 1.2) return 'rgb(34, 197, 94)'; // Green for high burn
+                    if (value >= averageCalories * 0.8) return 'rgb(239, 68, 68)'; // Red for normal
+                    return 'rgb(245, 158, 11)'; // Yellow for low burn
+                },
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 3,
+                pointHoverBackgroundColor: 'rgb(220, 38, 38)',
+                pointStyle: 'circle',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2,
+                shadowBlur: 8,
+                shadowColor: 'rgba(239, 68, 68, 0.3)'
+            },
+            {
+                label: 'Average Burn',
+                data: averageData,
+                borderColor: 'rgba(156, 163, 175, 0.8)',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                borderDash: [8, 4],
+                tension: 0,
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0
+            }
+        ]
     };
 
     caloriesChartInstance = new Chart(ctx, {
@@ -800,29 +1126,97 @@ function renderCaloriesBurnedChart(data, timeframe) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(239, 68, 68, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: {
+                        title: function(context) {
+                            return `🔥 ${context[0].label}`;
+                        },
                         label: function(context) {
-                            return `Calories: ${context.parsed.y} kcal`;
+                            if (context.datasetIndex === 0) {
+                                const value = context.parsed.y;
+                                const percentOfAvg = ((value / averageCalories) * 100).toFixed(0);
+                                const performance = value >= averageCalories * 1.2 ? '🔥 High Burn!' : 
+                                                  value >= averageCalories * 0.8 ? '💪 Good Workout' : '📈 Room to grow';
+                                return [`🔥 Burned: ${value} kcal`, `📊 ${percentOfAvg}% of average`, performance];
+                            } else {
+                                return `📈 Average: ${context.parsed.y.toFixed(0)} kcal`;
+                            }
                         }
                     }
                 }
             },
             scales: {
                 x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: timeframe === '7' ? 'Days' : timeframe === '30' ? 'Weeks' : 'Months'
+                        text: timeframe === '7' ? '📅 Days' : timeframe === '30' ? '📅 Weeks' : '📅 Months',
+                        color: '#374151',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(239, 68, 68, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        callback: function(value) {
+                            return value + ' kcal';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Calories Burned (kcal)'
+                        text: '🔥 Calories Burned',
+                        color: 'rgb(239, 68, 68)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
+                }
+            },
+            elements: {
+                point: {
+                    hoverBorderWidth: 4
                 }
             }
         }
@@ -900,25 +1294,57 @@ function renderNutritionChart(data, metric) {
 
     switch(metric) {
         case 'calories':
+            // Calculate daily goal (2000 calories recommended)
+            const calorieGoal = 2000;
+            const goalData = data.map(() => calorieGoal);
+
             chartData = {
                 labels: data.map(item => new Date(item.date).toLocaleDateString()),
-                datasets: [{
-                    label: 'Daily Calories',
-                    data: data.map(item => item.total_calories),
-                    borderColor: 'rgb(168, 85, 247)',
-                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                    tension: 0.1,
-                    fill: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
+                datasets: [
+                    {
+                        label: 'Daily Calories',
+                        data: data.map(item => item.total_calories),
+                        borderColor: 'rgb(168, 85, 247)',
+                        backgroundColor: (ctx) => {
+                            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                            gradient.addColorStop(0, 'rgba(168, 85, 247, 0.3)');
+                            gradient.addColorStop(1, 'rgba(168, 85, 247, 0.05)');
+                            return gradient;
+                        },
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: (context) => {
+                            const value = context.parsed.y;
+                            if (Math.abs(value - calorieGoal) <= 100) return 'rgb(34, 197, 94)'; // Green for on target
+                            if (value < calorieGoal * 0.8) return 'rgb(239, 68, 68)'; // Red for too low
+                            return 'rgb(168, 85, 247)'; // Purple for normal
+                        },
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
+                    },
+                    {
+                        label: 'Daily Goal (2000 kcal)',
+                        data: goalData,
+                        borderColor: 'rgba(34, 197, 94, 0.8)',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [8, 4],
+                        tension: 0,
+                        fill: false,
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }
+                ]
             };
             break;
         case 'macros':
             // Use the most recent day's data for pie chart
             const latestData = data[data.length - 1] || {};
             chartData = {
-                labels: ['Protein', 'Carbs', 'Fat'],
+                labels: ['🥩 Protein', '🍞 Carbs', '🥑 Fat'],
                 datasets: [{
                     data: [
                         latestData.total_protein || 0,
@@ -935,7 +1361,9 @@ function renderNutritionChart(data, metric) {
                         'rgb(59, 130, 246)',
                         'rgb(249, 115, 22)'
                     ],
-                    borderWidth: 2
+                    borderWidth: 3,
+                    hoverBorderWidth: 5,
+                    hoverOffset: 10
                 }]
             };
             chartType = 'doughnut';
@@ -948,18 +1376,28 @@ function renderNutritionChart(data, metric) {
                         label: 'Actual Calories',
                         data: data.map(item => item.total_calories),
                         borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.1,
-                        fill: false
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
                     },
                     {
                         label: 'Goal Calories',
                         data: data.map(item => item.calorie_goal || 2000), // Default goal
                         borderColor: 'rgb(239, 68, 68)',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        borderDash: [5, 5],
+                        backgroundColor: 'transparent',
+                        borderDash: [8, 4],
+                        borderWidth: 3,
                         tension: 0,
-                        fill: false
+                        fill: false,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgb(239, 68, 68)',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
                     }
                 ]
             };
@@ -977,32 +1415,118 @@ function renderNutritionChart(data, metric) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: chartType === 'doughnut' ? '60%' : undefined,
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    position: chartType === 'doughnut' ? 'bottom' : 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 15,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(168, 85, 247, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: metric === 'macros' ? {
+                        title: function(context) {
+                            return `🍽️ Macro Breakdown`;
+                        },
                         label: function(context) {
-                            return `${context.label}: ${context.parsed}g`;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return [
+                                `${context.label}: ${context.parsed}g`,
+                                `📊 ${percentage}% of total macros`
+                            ];
+                        }
+                    } : metric === 'calories' ? {
+                        title: function(context) {
+                            return `🍽️ ${context[0].label}`;
+                        },
+                        label: function(context) {
+                            if (context.datasetIndex === 0) {
+                                const value = context.parsed.y;
+                                const goal = 2000;
+                                const percentage = ((value / goal) * 100).toFixed(0);
+                                const status = Math.abs(value - goal) <= 100 ? '🎯 On target!' :
+                                             value < goal * 0.8 ? '📈 Below goal' : '⚠️ Above goal';
+                                return [`🍽️ Calories: ${value} kcal`, `📊 ${percentage}% of goal`, status];
+                            } else {
+                                return `🎯 Goal: ${context.parsed.y} kcal`;
+                            }
                         }
                     } : undefined
                 }
             },
             scales: chartType === 'doughnut' ? {} : {
                 x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Date'
+                        text: '📅 Date',
+                        color: '#374151',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(168, 85, 247, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: metric === 'goals' ? 'Calories' : 'Daily Calories'
+                        text: metric === 'goals' ? '🍽️ Calories' : '🍽️ Daily Calories',
+                        color: 'rgb(168, 85, 247)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 }
+            },
+            elements: {
+                point: {
+                    hoverBorderWidth: 4
+                },
+                arc: chartType === 'doughnut' ? {
+                    borderWidth: 3,
+                    hoverBorderWidth: 5
+                } : undefined
+            },
+            animation: {
+                duration: 1000
             }
         }
     });
