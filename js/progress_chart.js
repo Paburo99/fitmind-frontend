@@ -234,26 +234,58 @@ function renderWeightChart(data) {
 
     // Calculate trend line
     const trendData = calculateTrendLine(data);
+    
+    // Calculate target weight zone (if available)
+    const weights = data.map(item => item.weight_kg);
+    const minWeight = Math.min(...weights);
+    const maxWeight = Math.max(...weights);
+    const weightRange = maxWeight - minWeight;
 
     const chartData = {
         labels: data.map(item => new Date(item.date)),
         datasets: [
             {
-                label: 'Weight (kg)',
+                label: 'Weight Progress',
                 data: data.map(item => item.weight_kg),
-                borderColor: 'rgb(59, 130, 246)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.1,
-                fill: false,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                borderColor: 'rgb(99, 102, 241)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
+                    gradient.addColorStop(0.5, 'rgba(99, 102, 241, 0.15)');
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.05)');
+                    return gradient;
+                },
+                borderWidth: 4,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 8,
+                pointHoverRadius: 12,
+                pointBackgroundColor: (context) => {
+                    const currentWeight = context.parsed.y;
+                    const trendValue = trendData[context.dataIndex];
+                    
+                    // Color based on progress relative to trend
+                    if (currentWeight < trendValue) return 'rgb(34, 197, 94)'; // Green for weight loss
+                    if (currentWeight > trendValue + 0.5) return 'rgb(239, 68, 68)'; // Red for weight gain
+                    return 'rgb(99, 102, 241)'; // Purple for stable
+                },
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 3,
+                pointHoverBackgroundColor: 'rgb(79, 70, 229)',
+                pointStyle: 'circle',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2,
+                shadowBlur: 8,
+                shadowColor: 'rgba(99, 102, 241, 0.3)'
             },
             {
-                label: 'Trend',
+                label: 'Trend Line',
                 data: trendData,
-                borderColor: 'rgba(239, 68, 68, 0.8)',
-                borderDash: [5, 5],
-                tension: 0,
+                borderColor: 'rgba(34, 197, 94, 0.8)',
+                backgroundColor: 'transparent',
+                borderWidth: 3,
+                borderDash: [10, 5],
+                tension: 0.2,
                 fill: false,
                 pointRadius: 0,
                 pointHoverRadius: 0
@@ -273,18 +305,40 @@ function renderWeightChart(data) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 14,
+                            weight: '500'
+                        }
+                    }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(99, 102, 241, 0.8)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    padding: 12,
+                    displayColors: true,
                     callbacks: {
                         title: function(context) {
-                            return new Date(context[0].parsed.x).toLocaleDateString();
+                            return `⚖️ ${new Date(context[0].parsed.x).toLocaleDateString()}`;
                         },
                         label: function(context) {
                             if (context.datasetIndex === 0) {
-                                return `Weight: ${context.parsed.y.toFixed(1)} kg`;
+                                const weight = context.parsed.y;
+                                const trendValue = trendData[context.dataIndex];
+                                const difference = weight - trendValue;
+                                const status = difference < -0.1 ? '📉 Below trend' : 
+                                             difference > 0.1 ? '📈 Above trend' : '🎯 On track';
+                                return [`⚖️ Weight: ${weight.toFixed(1)} kg`, `📊 Trend: ${trendValue.toFixed(1)} kg`, status];
                             } else {
-                                return `Trend: ${context.parsed.y.toFixed(1)} kg`;
+                                return `📈 Trend: ${context.parsed.y.toFixed(1)} kg`;
                             }
                         }
                     }
@@ -300,17 +354,57 @@ function renderWeightChart(data) {
                            day: 'MMM dd'
                         }
                     },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Date'
+                        text: '📅 Date',
+                        color: '#374151',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
                 },
                 y: {
                     beginAtZero: false,
+                    grid: {
+                        color: 'rgba(99, 102, 241, 0.1)',
+                        lineWidth: 1
+                    },
+                    ticks: {
+                        color: '#6b7280',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        callback: function(value) {
+                            return value.toFixed(1) + ' kg';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Weight (kg)'
+                        text: '⚖️ Weight (kg)',
+                        color: 'rgb(99, 102, 241)',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
+                }
+            },
+            elements: {
+                point: {
+                    hoverBorderWidth: 4
                 }
             }
         }
