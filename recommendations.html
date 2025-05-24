@@ -46,13 +46,32 @@
             <button id="getMealRecButton" style="margin-left: 10px;">Get Meal Idea</button>
             <div id="mealRecommendation" style="margin-top: 10px; white-space: pre-wrap; background-color: #f9f9f9; padding:10px; border-radius:4px;">
                 Select a meal type and click the button for a meal suggestion.
+            </div>        </section>
+    </div>
+
+    <!-- Chat Widget -->
+    <div id="chatWidget" class="chat-widget">
+        <button id="chatToggle" class="chat-toggle">
+            <span class="chat-icon">💬</span>
+        </button>
+        <div id="chatContainer" class="chat-container" style="display: none;">
+            <div class="chat-header">
+                <h3>FitMind Assistant</h3>
+                <button id="chatClose" class="chat-close">×</button>
             </div>
-        </section>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div id="suggestionsContainer" class="suggestions-container"></div>
+            <div class="chat-input-container">
+                <textarea id="chatInput" class="chat-input" placeholder="Ask me anything about your fitness journey..." rows="1"></textarea>
+                <button id="chatSend" class="chat-send">Send</button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="/js/supabaseClient.js"></script>
     <script type="module" src="/js/apiService.js"></script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/recommend.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>

@@ -161,12 +161,31 @@
             <label>Distance (km): <input type="number" step="0.1" name="distance_km[]" placeholder="e.g., 5"></label>
             <label>Time (seconds): <input type="number" name="time_seconds[]" placeholder="e.g., 1800 for 30min"></label>
             <button type="button" class="removeExerciseButton">Remove</button>
+        </div>    </template>
+
+    <!-- Chat Widget -->
+    <div id="chatWidget" class="chat-widget">
+        <button id="chatToggle" class="chat-toggle">
+            <span class="chat-icon">💬</span>
+        </button>
+        <div id="chatContainer" class="chat-container" style="display: none;">
+            <div class="chat-header">
+                <h3>FitMind Assistant</h3>
+                <button id="chatClose" class="chat-close">×</button>
+            </div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div id="suggestionsContainer" class="suggestions-container"></div>
+            <div class="chat-input-container">
+                <textarea id="chatInput" class="chat-input" placeholder="Ask me anything about your fitness journey..." rows="1"></textarea>
+                <button id="chatSend" class="chat-send">Send</button>
+            </div>
         </div>
-    </template>
+    </div>
 
     <script type="module" src="/js/supabaseClient.js"></script>
     <script type="module" src="/js/apiService.js"></script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/tracking.js"></script>
+    <script type="module" src="/js/chat.js"></script>
 </body>
 </html>
