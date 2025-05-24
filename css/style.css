@@ -85,6 +85,8 @@ nav ul {
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+    /* Prevent navigation items from shifting */
+    min-height: 2.5rem;
 }
 
 nav ul li {
@@ -100,6 +102,9 @@ nav ul li a {
     transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
+    /* Prevent layout shifts */
+    box-sizing: border-box;
+    display: inline-block;
 }
 
 nav ul li a::before {
@@ -119,8 +124,8 @@ nav ul li a:hover::before {
 }
 
 nav ul li a:hover, nav ul li button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    background: rgba(255, 255, 255, 0.15);
+    transform: none; /* Remove the translateY that causes shifting */
 }
 
 nav ul li button {
@@ -133,11 +138,15 @@ nav ul li button {
     font-weight: 600;
     border-radius: var(--radius-md);
     transition: all var(--transition-normal);
+    /* Ensure consistent sizing */
+    box-sizing: border-box;
 }
 
 nav ul li button:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
+    /* Remove any transform to prevent shifting */
+    transform: none;
 }
 
 #userEmailDisplay {
@@ -722,11 +731,12 @@ legend {
     nav {
         padding: 1rem;
     }
-    
-    nav ul {
+      nav ul {
         flex-direction: column;
         gap: 1rem;
         align-items: stretch;
+        /* Maintain stable height on mobile */
+        min-height: auto;
     }
     
     h1 {
