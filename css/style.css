@@ -1,35 +1,42 @@
 /* FitMind - Modern Fitness Tracking CSS */
 :root {
-    /* Primary Color Palette - Energizing and Motivational */
-    --primary-color: #00C851; /* Vibrant green for success/progress */
-    --primary-dark: #00A844;
-    --primary-light: #4DD678;
+    /* New Color Palette - Fresh and Modern */
+    --aero: #28BEE1;           /* Bright cyan - primary actions */
+    --white: #FCFCFC;          /* Clean white - backgrounds */
+    --oxford-blue: #16182D;    /* Deep blue - text and headers */
+    --lime-green: #69CA27;     /* Fresh green - success/progress */
+    --denim: #205DBA;          /* Rich blue - secondary actions */
+    
+    /* Primary Color Mapping */
+    --primary-color: var(--lime-green);    /* Green for success/progress */
+    --primary-dark: #5BB11F;               /* Darker green variant */
+    --primary-light: #7DD531;              /* Lighter green variant */
     
     /* Secondary Colors */
-    --secondary-color: #FF6B35; /* Energetic orange for actions */
-    --secondary-dark: #E55A2B;
-    --secondary-light: #FF8A5C;
+    --secondary-color: var(--aero);        /* Cyan for actions */
+    --secondary-dark: #22A8C7;             /* Darker cyan variant */
+    --secondary-light: #3FC7E8;            /* Lighter cyan variant */
     
     /* Accent Colors */
-    --accent-blue: #007BFF;
-    --accent-purple: #6F42C1;
-    --accent-teal: #20C997;
+    --accent-blue: var(--denim);           /* Rich blue */
+    --accent-purple: #6F42C1;              /* Keep purple for variety */
+    --accent-teal: var(--aero);            /* Use aero as teal */
     
     /* Neutral Colors */
-    --background-primary: #F8FFFE;
-    --background-secondary: #FFFFFF;
-    --background-muted: #F1F5F9;
-    --text-primary: #1A202C;
-    --text-secondary: #4A5568;
-    --text-muted: #718096;
-    --border-color: #E2E8F0;
-    --border-light: #F7FAFC;
+    --background-primary: var(--white);    /* Clean white background */
+    --background-secondary: #F8F9FB;       /* Very light blue-gray */
+    --background-muted: #EDF1F7;           /* Subtle blue-gray */
+    --text-primary: var(--oxford-blue);    /* Deep blue for text */
+    --text-secondary: #4A5568;             /* Medium gray text */
+    --text-muted: #718096;                 /* Light gray text */
+    --border-color: #E2E8F0;               /* Light borders */
+    --border-light: #F1F5F9;               /* Very light borders */
     
     /* Status Colors */
-    --success-color: #48BB78;
-    --warning-color: #ED8936;
-    --error-color: #F56565;
-    --info-color: #4299E1;
+    --success-color: var(--lime-green);    /* Green for success */
+    --warning-color: #F59E0B;              /* Amber for warnings */
+    --error-color: #EF4444;                /* Red for errors */
+    --info-color: var(--aero);             /* Cyan for information */
     
     /* Shadows */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -76,7 +83,7 @@ header {
 
 /* Navigation Styles */
 nav {
-    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(90deg, var(--denim) 0%, var(--oxford-blue) 100%);
     color: white;
     padding: 1rem 2rem;
     box-shadow: var(--shadow-lg);
@@ -333,7 +340,7 @@ nav ul li button:hover {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-blue));
+    background: linear-gradient(90deg, var(--lime-green), var(--aero), var(--denim));
 }
 
 /* Section Styling */
@@ -369,7 +376,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 2.75rem;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, var(--denim), var(--aero));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -383,7 +390,7 @@ h1::after {
     left: 0;
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(90deg, var(--lime-green), var(--aero));
     border-radius: var(--radius-sm);
 }
 
@@ -475,7 +482,7 @@ select:focus,
 textarea:focus {
     border-color: var(--primary-color);
     outline: 0;
-    box-shadow: 0 0 0 3px rgba(0, 200, 81, 0.1);
+    box-shadow: 0 0 0 3px rgba(105, 202, 39, 0.1);
     transform: translateY(-2px);
 }
 
@@ -486,7 +493,7 @@ textarea {
 
 select {
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23205DBA' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
     background-position: right 0.5rem center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -547,11 +554,11 @@ button:active {
 }
 
 .btn-danger {
-    background: linear-gradient(135deg, var(--error-color), #E53E3E);
+    background: linear-gradient(135deg, var(--error-color), #DC2626);
 }
 
 .btn-success {
-    background: linear-gradient(135deg, var(--success-color), #38A169);
+    background: linear-gradient(135deg, var(--success-color), var(--primary-dark));
 }
 
 .btn-outline {
@@ -592,7 +599,7 @@ button + button {
 /* Message Styling */
 .error-message {
     color: var(--background-secondary);
-    background: linear-gradient(135deg, var(--error-color), #E53E3E);
+    background: linear-gradient(135deg, var(--error-color), #DC2626);
     border: none;
     padding: 1rem 1.5rem;
     margin-bottom: 1.5rem;
@@ -612,7 +619,7 @@ button + button {
 
 .success-message {
     color: var(--background-secondary);
-    background: linear-gradient(135deg, var(--success-color), #38A169);
+    background: linear-gradient(135deg, var(--success-color), var(--primary-dark));
     border: none;
     padding: 1rem 1.5rem;
     margin-bottom: 1.5rem;
@@ -632,7 +639,7 @@ button + button {
 
 .info-message {
     color: var(--background-secondary);
-    background: linear-gradient(135deg, var(--info-color), #3182CE);
+    background: linear-gradient(135deg, var(--info-color), var(--secondary-dark));
     border: none;
     padding: 1rem 1.5rem;
     margin-bottom: 1.5rem;
@@ -915,16 +922,16 @@ legend {
 
 @keyframes chatPulse {
     0%, 100% {
-        box-shadow: 0 4px 15px rgba(0, 200, 81, 0.3);
+        box-shadow: 0 4px 15px rgba(105, 202, 39, 0.3);
     }
     50% {
-        box-shadow: 0 4px 25px rgba(0, 200, 81, 0.6);
+        box-shadow: 0 4px 25px rgba(105, 202, 39, 0.6);
     }
 }
 
 .chat-toggle:hover {
     transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 6px 25px rgba(0, 200, 81, 0.5);
+    box-shadow: 0 6px 25px rgba(105, 202, 39, 0.5);
     border-color: rgba(255, 255, 255, 1);
 }
 
@@ -1103,7 +1110,7 @@ legend {
 .chat-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 200, 81, 0.1);
+    box-shadow: 0 0 0 3px rgba(105, 202, 39, 0.1);
 }
 
 .chat-send {
@@ -1216,7 +1223,7 @@ legend {
         width: 100vw;
         height: auto;
         min-height: 100vh;
-        background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        background: linear-gradient(180deg, var(--denim) 0%, var(--oxford-blue) 100%);
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
@@ -1429,7 +1436,7 @@ legend {
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(22, 24, 45, 0.5); /* Using oxford-blue with transparency */
         z-index: -1;
     }
 }
@@ -1500,7 +1507,7 @@ textarea:focus {
 }
 
 .streak-counter {
-    background: linear-gradient(135deg, var(--accent-purple), #553C9A);
+    background: linear-gradient(135deg, var(--accent-purple), #5B2C87);
     color: white;
     padding: 1rem;
     border-radius: var(--radius-lg);
