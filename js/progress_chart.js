@@ -39,11 +39,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (refreshWorkoutChart) {
         refreshWorkoutChart.addEventListener('click', loadWorkoutChartData);
-    }
-
-    // Nutrition chart controls
+    }    // Nutrition chart controls
+    const nutritionTimeframe = document.getElementById('nutritionTimeframe');
     const nutritionMetric = document.getElementById('nutritionMetric');
     const refreshNutritionChart = document.getElementById('refreshNutritionChart');
+    
+    if (nutritionTimeframe) {
+        nutritionTimeframe.addEventListener('change', loadNutritionChartData);
+    }
     
     if (nutritionMetric) {
         nutritionMetric.addEventListener('change', loadNutritionChartData);
@@ -1353,9 +1356,10 @@ function groupCaloriesByPeriod(data, timeframe) {
 async function loadNutritionChartData() {
     const noNutritionDataMsg = document.getElementById('noNutritionDataMessage');
     const metric = document.getElementById('nutritionMetric')?.value || 'calories';
+    const timeframe = document.getElementById('nutritionTimeframe')?.value || '30';
     
     try {
-        const nutritionData = await makeApiRequest(`/progress/nutrition?metric=${metric}`, 'GET');
+        const nutritionData = await makeApiRequest(`/progress/nutrition?metric=${metric}&days=${timeframe}`, 'GET');
         
         if (nutritionData && nutritionData.length > 0) {
             if(noNutritionDataMsg) noNutritionDataMsg.style.display = 'none';
@@ -1433,33 +1437,45 @@ function renderNutritionChart(data, metric) {
                     }
                 ]
             };
-            break;
-        case 'macros':
+            break;        case 'macros':
             // Use the most recent day's data for pie chart
             const latestData = data[data.length - 1] || {};
-            chartData = {
-                labels: ['🥩 Protein', '🍞 Carbs', '🥑 Fat'],
-                datasets: [{
-                    data: [
-                        latestData.total_protein || 0,
-                        latestData.total_carbs || 0,
-                        latestData.total_fat || 0
-                    ],
-                    backgroundColor: [
-                        'rgba(34, 197, 94, 0.8)',
-                        'rgba(59, 130, 246, 0.8)',
-                        'rgba(249, 115, 22, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgb(34, 197, 94)',
-                        'rgb(59, 130, 246)',
-                        'rgb(249, 115, 22)'
-                    ],
-                    borderWidth: 3,
-                    hoverBorderWidth: 5,
-                    hoverOffset: 10
-                }]
-            };
+            const proteinValue = latestData.total_protein || 0;
+            const carbsValue = latestData.total_carbs || 0;
+            const fatValue = latestData.total_fat || 0;
+            
+            // Check if all macro values are zero
+            if (proteinValue === 0 && carbsValue === 0 && fatValue === 0) {
+                chartData = {
+                    labels: ['No macro data available'],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ['rgba(156, 163, 175, 0.5)'],
+                        borderColor: ['rgb(156, 163, 175)'],
+                        borderWidth: 1
+                    }]
+                };
+            } else {
+                chartData = {
+                    labels: ['🥩 Protein', '🍞 Carbs', '🥑 Fat'],
+                    datasets: [{
+                        data: [proteinValue, carbsValue, fatValue],
+                        backgroundColor: [
+                            'rgba(34, 197, 94, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(249, 115, 22, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgb(34, 197, 94)',
+                            'rgb(59, 130, 246)',
+                            'rgb(249, 115, 22)'
+                        ],
+                        borderWidth: 3,
+                        hoverBorderWidth: 5,
+                        hoverOffset: 10
+                    }]
+                };
+            }
             chartType = 'doughnut';
             break;
         case 'goals':
