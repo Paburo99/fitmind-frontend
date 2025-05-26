@@ -1,21 +1,41 @@
 // Context-Aware Chat System for FitMind
 import { makeApiRequest } from './apiService.js';
-import { displayMessage } from './utils.js';
 
 class ContextAwareChat {
     constructor() {
+        console.log('ContextAwareChat constructor called');
+        
         this.isOpen = false;
         this.currentContext = this.detectPageContext();
         this.conversationHistory = [];
         this.isTyping = false;
         
-        this.init();
-    }
-
-    init() {
-        this.createChatWidget();
-        this.attachEventListeners();
-        this.loadContextSuggestions();
+        console.log('Detected context:', this.currentContext);
+        
+        try {
+            this.init();
+            console.log('Chat initialization completed');
+        } catch (error) {
+            console.error('Error during chat init:', error);
+            throw error;
+        }
+    }    init() {
+        console.log('Starting chat init...');
+        
+        try {
+            this.initializeExistingChatWidget();
+            console.log('Widget initialized');
+            
+            this.attachEventListeners();
+            console.log('Event listeners attached');
+            
+            this.loadContextSuggestions();
+            console.log('Context suggestions loaded');
+            
+        } catch (error) {
+            console.error('Error in init method:', error);
+            throw error;
+        }
     }
 
     detectPageContext() {
@@ -111,6 +131,60 @@ class ContextAwareChat {
         };
 
         return contexts[page] || contexts['dashboard'];
+    }    initializeExistingChatWidget() {
+        console.log('Initializing existing chat widget...');
+        
+        // Check if chat widget already exists in HTML
+        const existingWidget = document.getElementById('chatWidget');
+        console.log('Existing widget found:', !!existingWidget);
+        
+        if (!existingWidget) {
+            console.log('No existing widget, creating new one...');
+            this.createChatWidget();
+            return;
+        }
+
+        // Update existing widget with context-specific content
+        const chatContainer = document.getElementById('chatContainer');
+        console.log('Chat container found:', !!chatContainer);
+        
+        if (chatContainer) {
+            // Update header with context
+            const chatHeader = chatContainer.querySelector('.chat-header h3');
+            if (chatHeader) {
+                chatHeader.innerHTML = `${this.currentContext.emoji} FitMind AI <span style="font-size: 0.8em; color: #666;">(${this.currentContext.name})</span>`;
+                console.log('Header updated');
+            }
+
+            // Update placeholder text
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.placeholder = `Ask me anything about ${this.currentContext.name.toLowerCase()}...`;
+                console.log('Input placeholder updated');
+            }
+
+            // Add welcome message if messages container is empty
+            const messagesContainer = document.getElementById('chatMessages');
+            console.log('Messages container found:', !!messagesContainer);
+            console.log('Messages container children count:', messagesContainer ? messagesContainer.children.length : 0);
+            
+            if (messagesContainer && messagesContainer.children.length === 0) {
+                const welcomeMessage = document.createElement('div');
+                welcomeMessage.className = 'chat-message bot';
+                welcomeMessage.innerHTML = `
+                    <div class="message-avatar bot">🤖</div>
+                    <div class="message-content">
+                        Hi! I'm your FitMind AI assistant. I'm here to help you with <strong>${this.currentContext.focus}</strong>. 
+                        <br><br>Ask me anything about your fitness journey, and I'll provide personalized guidance based on your current page context!
+                        <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                `;
+                messagesContainer.appendChild(welcomeMessage);
+                console.log('Welcome message added');
+            }
+        }
+        
+        console.log('Widget initialization complete');
     }
 
     createChatWidget() {
@@ -155,53 +229,108 @@ class ContextAwareChat {
         `;
 
         document.body.appendChild(chatWidget);
-    }
-
-    attachEventListeners() {
+    }    attachEventListeners() {
+        console.log('Attaching event listeners...');
+        
         const chatToggle = document.getElementById('chatToggle');
         const chatClose = document.getElementById('chatClose');
         const chatContainer = document.getElementById('chatContainer');
         const chatInput = document.getElementById('chatInput');
         const chatSend = document.getElementById('chatSend');
 
-        chatToggle.addEventListener('click', () => this.toggleChat());
-        chatClose.addEventListener('click', () => this.closeChat());
-        
-        chatInput.addEventListener('input', () => this.handleInputChange());
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.sendMessage();
-            }
+        console.log('Elements found:', {
+            chatToggle: !!chatToggle,
+            chatClose: !!chatClose,
+            chatContainer: !!chatContainer,
+            chatInput: !!chatInput,
+            chatSend: !!chatSend
         });
+
+        if (chatToggle) {
+            chatToggle.addEventListener('click', () => {
+                console.log('Chat toggle clicked!');
+                this.toggleChat();
+            });
+            console.log('Toggle listener attached');
+        }
         
-        chatSend.addEventListener('click', () => this.sendMessage());
+        if (chatClose) {
+            chatClose.addEventListener('click', () => {
+                console.log('Chat close clicked!');
+                this.closeChat();
+            });
+            console.log('Close listener attached');
+        }
+        
+        if (chatInput) {
+            chatInput.addEventListener('input', () => this.handleInputChange());
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+            
+            // Auto-resize textarea
+            chatInput.addEventListener('input', () => {
+                chatInput.style.height = '20px';
+                chatInput.style.height = Math.min(chatInput.scrollHeight, 80) + 'px';
+            });
+            console.log('Input listeners attached');
+        }
+        
+        if (chatSend) {
+            chatSend.addEventListener('click', () => this.sendMessage());
+            console.log('Send listener attached');
+        }
 
         // Close chat when clicking outside
-        document.addEventListener('click', (e) => {
-            if (this.isOpen && !chatContainer.contains(e.target) && !chatToggle.contains(e.target)) {
-                this.closeChat();
+        if (chatContainer && chatToggle) {
+            document.addEventListener('click', (e) => {
+                if (this.isOpen && !chatContainer.contains(e.target) && !chatToggle.contains(e.target)) {
+                    this.closeChat();
+                }
+            });
+            console.log('Outside click listener attached');
+        }
+        
+        console.log('All event listeners attached successfully');
+    }loadContextSuggestions() {
+        let suggestionsContainer = document.getElementById('suggestionsContainer');
+        
+        // If the suggestions container doesn't exist in HTML, create it
+        if (!suggestionsContainer) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (messagesContainer) {
+                suggestionsContainer = document.createElement('div');
+                suggestionsContainer.id = 'suggestionsContainer';
+                suggestionsContainer.className = 'suggestions-container';
+                messagesContainer.appendChild(suggestionsContainer);
             }
-        });
+        }
 
-        // Auto-resize textarea
-        chatInput.addEventListener('input', () => {
-            chatInput.style.height = '20px';
-            chatInput.style.height = Math.min(chatInput.scrollHeight, 80) + 'px';
-        });
-    }
+        if (!suggestionsContainer) return;
 
-    loadContextSuggestions() {
-        const suggestionsContainer = document.getElementById('contextSuggestions');
+        // Clear existing suggestions
+        suggestionsContainer.innerHTML = '';
+        
+        // Add context title
+        const title = document.createElement('div');
+        title.className = 'suggestions-title';
+        title.textContent = `💡 Try asking about ${this.currentContext.name}:`;
+        suggestionsContainer.appendChild(title);
         
         this.currentContext.suggestions.forEach(suggestion => {
             const chip = document.createElement('div');
             chip.className = 'suggestion-chip';
             chip.textContent = suggestion;
             chip.addEventListener('click', () => {
-                document.getElementById('chatInput').value = suggestion;
-                this.handleInputChange();
-                this.sendMessage();
+                const chatInput = document.getElementById('chatInput');
+                if (chatInput) {
+                    chatInput.value = suggestion;
+                    this.handleInputChange();
+                    this.sendMessage();
+                }
             });
             suggestionsContainer.appendChild(chip);
         });
@@ -213,29 +342,52 @@ class ContextAwareChat {
         } else {
             this.openChat();
         }
-    }
-
-    openChat() {
+    }    openChat() {
         const chatContainer = document.getElementById('chatContainer');
         const chatToggle = document.getElementById('chatToggle');
         
-        chatContainer.classList.add('show');
-        chatToggle.innerHTML = '✕';
-        this.isOpen = true;
+        console.log('Opening chat...');
+        console.log('Chat container:', !!chatContainer);
+        console.log('Chat toggle:', !!chatToggle);
         
-        // Focus on input after animation
-        setTimeout(() => {
-            document.getElementById('chatInput').focus();
-        }, 300);
+        if (chatContainer && chatToggle) {
+            chatContainer.classList.add('show');
+            const chatIcon = chatToggle.querySelector('.chat-icon');
+            if (chatIcon) {
+                chatIcon.textContent = '✕';
+            }
+            this.isOpen = true;
+            console.log('Chat opened successfully');
+            
+            // Focus on input after animation
+            setTimeout(() => {
+                const chatInput = document.getElementById('chatInput');
+                if (chatInput) {
+                    chatInput.focus();
+                }
+            }, 100);
+        } else {
+            console.error('Could not open chat - missing elements');
+        }
     }
 
     closeChat() {
         const chatContainer = document.getElementById('chatContainer');
         const chatToggle = document.getElementById('chatToggle');
         
-        chatContainer.classList.remove('show');
-        chatToggle.innerHTML = '💬';
-        this.isOpen = false;
+        console.log('Closing chat...');
+        
+        if (chatContainer && chatToggle) {
+            chatContainer.classList.remove('show');
+            const chatIcon = chatToggle.querySelector('.chat-icon');
+            if (chatIcon) {
+                chatIcon.textContent = '💬';
+            }
+            this.isOpen = false;
+            console.log('Chat closed successfully');
+        } else {
+            console.error('Could not close chat - missing elements');
+        }
     }
 
     handleInputChange() {
@@ -389,10 +541,29 @@ Provide a helpful, context-aware response:`;
 
 // Initialize chat when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize if user is authenticated
-    const token = localStorage.getItem('token');
-    if (token) {
-        new ContextAwareChat();
+    console.log('DOM loaded, initializing chat...');
+    
+    try {
+        // Always initialize chat widget for testing
+        // In production, you might want to check authentication first
+        const chat = new ContextAwareChat();
+        console.log('Chat initialized successfully:', chat);
+        
+        // Store chat instance globally for debugging
+        window.fitMindChat = chat;
+        
+    } catch (error) {
+        console.error('Failed to initialize chat:', error);
+        
+        // Try to show a fallback message
+        const chatWidget = document.getElementById('chatWidget');
+        if (chatWidget) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: red; color: white; padding: 10px; border-radius: 5px; z-index: 10000;';
+            errorDiv.textContent = 'Chat initialization failed';
+            document.body.appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
     }
 });
 
