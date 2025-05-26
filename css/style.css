@@ -211,7 +211,9 @@ nav ul {
         display: none !important;
     }
     
-    nav ul {
+    /* Only style visible navigation lists on desktop */
+    #authLinks ul,
+    #navLinks[style*="display: flex"] {
         display: flex !important;
         position: static !important;
         background: none !important;
@@ -221,6 +223,11 @@ nav ul {
         padding: 0 !important;
         box-shadow: none !important;
         overflow: visible !important;
+    }
+    
+    /* Ensure hidden navLinks stay hidden on desktop */
+    #navLinks[style*="display: none"] {
+        display: none !important;
     }
 }
 

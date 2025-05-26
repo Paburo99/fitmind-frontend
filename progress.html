@@ -198,6 +198,37 @@
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/progress_chart.js"></script>
     <script type="module" src="/js/chat.js"></script>
-    <script type="module" src="/js/navigation.js"></script>
+    <script>
+        // Navigation toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (navToggle && navLinks) {
+                navToggle.addEventListener('click', function() {
+                    navToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+                
+                // Close menu when clicking on links
+                navLinks.querySelectorAll('a, button').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 1024) {
+                            navToggle.classList.remove('active');
+                            navLinks.classList.remove('active');
+                        }
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+                        navToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
