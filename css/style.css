@@ -69,7 +69,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    margin-bottom: 2rem;
+    /* Remove margin-bottom as it doesn't work properly with sticky */
 }
 
 /* Navigation Styles */
@@ -267,7 +267,7 @@ nav ul li button:hover {
     padding: 2.5rem;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
-    margin: 2rem auto 2rem auto;
+    margin: 120px auto 2rem auto; /* Increased top margin to account for sticky header */
     max-width: 1200px;
     position: relative;
     overflow: hidden;
@@ -1211,6 +1211,10 @@ legend {
         background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.5);
     }
+      /* Container spacing for tablet to prevent header overlay */
+    .container {
+        margin-top: 110px; /* Ensure proper spacing for sticky header on tablet */
+    }
     
     /* Chat widget adjustments for tablet */
     .chat-toggle {
@@ -1225,9 +1229,7 @@ legend {
 }
 
 @media (max-width: 768px) {
-    header {
-        margin-bottom: 1.5rem;
-    }
+    /* Remove header margin-bottom as it doesn't work with sticky positioning */
     
     #userEmailDisplay {
         position: static;
@@ -1238,7 +1240,7 @@ legend {
     
     .container {
         padding: 1.5rem;
-        margin: 0 1rem 1rem 1rem;
+        margin: 100px 1rem 1rem 1rem; /* Maintain proper top spacing for sticky header */
     }
     
     nav {
