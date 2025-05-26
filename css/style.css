@@ -62,6 +62,8 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     font-size: 16px;
+    /* Add top padding to account for sticky header */
+    padding-top: 90px;
 }
 
 /* Header Styling */
@@ -82,6 +84,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 70px; /* Ensure consistent minimum height */
 }
 
 .nav-brand {
@@ -157,6 +160,16 @@ nav ul {
     flex-wrap: wrap;
     /* Prevent navigation items from shifting */
     min-height: 2.5rem;
+}
+
+/* CRITICAL: Hide navigation on mobile/tablet by default */
+@media (max-width: 1024px) {
+    nav ul:not(.active) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
 }
 
 /* Hide hamburger menu on desktop */
@@ -267,7 +280,7 @@ nav ul li button:hover {
     padding: 2.5rem;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
-    margin: 120px auto 2rem auto; /* Increased top margin to account for sticky header */
+    margin: 2rem auto 2rem auto; /* Reduced since body now has padding-top */
     max-width: 1200px;
     position: relative;
     overflow: hidden;
@@ -1155,7 +1168,7 @@ legend {
         display: flex;
     }
     
-    /* Hide navigation items by default on mobile/tablet */
+    /* IMPORTANT: Hide navigation items by default on mobile/tablet - prevent overlay */
     nav ul {
         position: fixed;
         top: -100%;
@@ -1174,14 +1187,20 @@ legend {
         z-index: 1000;
         gap: 2rem;
         overflow-y: auto;
-        /* Hide by default */
-        display: none;
+        /* Hide by default - CRITICAL: Use display none with !important */
+        display: none !important;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
     
-    /* Show navigation when active */
+    /* Show navigation ONLY when active */
     nav ul.active {
-        display: flex;
+        display: flex !important;
         top: 0;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
     }
       
     nav ul li {
@@ -1210,10 +1229,13 @@ legend {
     nav ul li button:hover {
         background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.5);
-    }
-      /* Container spacing for tablet to prevent header overlay */
+    }    /* Container spacing for tablet to prevent header overlay */
     .container {
-        margin-top: 110px; /* Ensure proper spacing for sticky header on tablet */
+        margin-top: 1rem; /* Reset since body padding handles spacing */
+    }
+    
+    body {
+        padding-top: 85px; /* Adjust for tablet header height */
     }
     
     /* Chat widget adjustments for tablet */
@@ -1229,7 +1251,10 @@ legend {
 }
 
 @media (max-width: 768px) {
-    /* Remove header margin-bottom as it doesn't work with sticky positioning */
+    /* Ensure proper body padding for mobile header */
+    body {
+        padding-top: 80px; /* Adjust for mobile header height */
+    }
     
     #userEmailDisplay {
         position: static;
@@ -1240,7 +1265,7 @@ legend {
     
     .container {
         padding: 1.5rem;
-        margin: 100px 1rem 1rem 1rem; /* Maintain proper top spacing for sticky header */
+        margin: 1rem 1rem 1rem 1rem; /* Reset - body padding handles header spacing */
     }
     
     nav {
