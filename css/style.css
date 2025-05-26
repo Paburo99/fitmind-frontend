@@ -162,13 +162,46 @@ nav ul {
     min-height: 2.5rem;
 }
 
-/* CRITICAL: Hide navigation on mobile/tablet by default */
+/* CRITICAL: Hide ONLY the logged-in navigation on mobile/tablet by default */
 @media (max-width: 1024px) {
-    nav ul:not(.active) {
+    #navLinks:not(.active) {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
+    }
+    
+    /* Keep auth links visible and properly styled on mobile/tablet */
+    #authLinks ul {
+        display: flex !important;
+        position: static !important;
+        background: none !important;
+        flex-direction: row !important;
+        gap: 1rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        list-style: none !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+    }
+    
+    #authLinks ul li a {
+        color: white !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: var(--radius-md) !important;
+        transition: all var(--transition-normal) !important;
+        font-size: 0.9rem !important;
+    }
+    
+    #authLinks ul li a:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    /* Hide hamburger menu when showing auth links */
+    #authLinks ~ .nav-toggle {
+        display: none !important;
     }
 }
 
@@ -1168,8 +1201,8 @@ legend {
         display: flex;
     }
     
-    /* IMPORTANT: Hide navigation items by default on mobile/tablet - prevent overlay */
-    nav ul {
+    /* IMPORTANT: Hide ONLY logged-in navigation items by default on mobile/tablet - prevent overlay */
+    #navLinks {
         position: fixed;
         top: -100%;
         left: 0;
@@ -1193,9 +1226,8 @@ legend {
         visibility: hidden;
         pointer-events: none;
     }
-    
-    /* Show navigation ONLY when active */
-    nav ul.active {
+      /* Show logged-in navigation ONLY when active */
+    #navLinks.active {
         display: flex !important;
         top: 0;
         opacity: 1;
@@ -1203,13 +1235,13 @@ legend {
         pointer-events: auto;
     }
       
-    nav ul li {
+    #navLinks li {
         width: 80%;
         text-align: center;
     }
     
-    nav ul li a,
-    nav ul li button {
+    #navLinks li a,
+    #navLinks li button {
         width: 100%;
         padding: 1rem;
         font-size: 1.1rem;
@@ -1218,7 +1250,7 @@ legend {
         text-align: center;
     }
     
-    nav ul li button {
+    #navLinks li button {
         background: rgba(255, 255, 255, 0.15);
         border: 2px solid rgba(255, 255, 255, 0.3);
         color: white;
@@ -1226,10 +1258,10 @@ legend {
         transition: all var(--transition-normal);
     }
     
-    nav ul li button:hover {
+    #navLinks li button:hover {
         background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.5);
-    }    /* Container spacing for tablet to prevent header overlay */
+    }/* Container spacing for tablet to prevent header overlay */
     .container {
         margin-top: 1rem; /* Reset since body padding handles spacing */
     }
@@ -1276,12 +1308,11 @@ legend {
         width: 35px;
         height: 35px;
     }
-    
-    .logo-text {
+      .logo-text {
         font-size: 1.3rem;
     }
     
-    nav ul {
+    #navLinks {
         width: 250px;
     }
     
@@ -1383,9 +1414,8 @@ legend {
         max-height: 225px;
         min-height: 175px;
     }
-    
-    /* Enhanced mobile navigation overlay */
-    nav ul.active::before {
+      /* Enhanced mobile navigation overlay */
+    #navLinks.active::before {
         content: '';
         position: fixed;
         top: 0;

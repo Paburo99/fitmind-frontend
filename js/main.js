@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userEmailDisplay = document.getElementById('userEmailDisplay');
     const navLinks = document.getElementById('navLinks');
     const authLinks = document.getElementById('authLinks'); // For login/register links
+    const navToggle = document.getElementById('navToggle'); // Hamburger menu
 
     supabase.auth.onAuthStateChange((event, session) => {
         if (session && session.user) {
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navLinks) navLinks.style.display = 'flex'; // Show app navigation
             if (authLinks) authLinks.style.display = 'none'; // Hide login/register
             if (logoutButton) logoutButton.style.display = 'block';
+            if (navToggle) navToggle.style.display = 'flex'; // Show hamburger menu
 
             // Redirect to dashboard if on login/register page and logged in
             const currentPath = window.location.pathname;
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navLinks) navLinks.style.display = 'none'; // Hide app navigation
             if (authLinks) authLinks.style.display = 'flex'; // Show login/register
             if (logoutButton) logoutButton.style.display = 'none';
+            if (navToggle) navToggle.style.display = 'none'; // Hide hamburger menu
 
             // If not on login/register page, redirect to login
             const currentPath = window.location.pathname;
