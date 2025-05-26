@@ -159,6 +159,25 @@ nav ul {
     min-height: 2.5rem;
 }
 
+/* Hide hamburger menu on desktop */
+@media (min-width: 1025px) {
+    .nav-toggle {
+        display: none !important;
+    }
+    
+    nav ul {
+        display: flex !important;
+        position: static !important;
+        background: none !important;
+        height: auto !important;
+        min-height: 2.5rem !important;
+        flex-direction: row !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+    }
+}
+
 nav ul li {
     position: relative;
 }
@@ -1134,7 +1153,10 @@ legend {
 @media (max-width: 1024px) {
     .nav-toggle {
         display: flex;
-    }    nav ul {
+    }
+    
+    /* Hide navigation items by default on mobile/tablet */
+    nav ul {
         position: fixed;
         top: -100%;
         left: 0;
@@ -1152,12 +1174,16 @@ legend {
         z-index: 1000;
         gap: 2rem;
         overflow-y: auto;
+        /* Hide by default */
+        display: none;
     }
     
+    /* Show navigation when active */
     nav ul.active {
+        display: flex;
         top: 0;
     }
-    
+      
     nav ul li {
         width: 80%;
         text-align: center;
@@ -1308,13 +1334,9 @@ legend {
     .logo img {
         width: 30px;
         height: 30px;
-    }
-    
+    }    
     .logo-text {
         font-size: 1.2rem;
-    }    nav ul {
-        width: 100vw;
-        padding-top: 90px;
     }
     
     h1 {
