@@ -7,14 +7,24 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
-    <header>
+<body>    <header>
         <nav>
-             <ul id="navLinks">
+            <div class="nav-brand">
+                <a href="/dashboard.html" class="logo">
+                    <img src="/assets/images/fitmind_logo.jpg" alt="FitMind Logo">
+                    <span class="logo-text">FitMind</span>
+                </a>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="navLinks">
                 <li><a href="/dashboard.html">Dashboard</a></li>
                 <li><a href="/profile.html">Profile</a></li>
                 <li><a href="/track_data.html">Track Data</a></li>
-                <li><a href="/recommendations.html">Recommendations</a></li>
+                <li><a href="/recommendations.html" class="active-page">Recommendations</a></li>
                 <li><a href="/progress.html">Progress</a></li>
                 <li><button id="logoutButton">Logout</button></li>
             </ul>
@@ -65,13 +75,44 @@
                 <textarea id="chatInput" class="chat-input" placeholder="Ask me anything about your fitness journey..." rows="1"></textarea>
                 <button id="chatSend" class="chat-send">Send</button>
             </div>
-        </div>
-    </div>
+        </div>    </div>
 
     <script type="module" src="/js/supabaseClient.js"></script>
     <script type="module" src="/js/apiService.js"></script>
     <script type="module" src="/js/main.js"></script>
     <script type="module" src="/js/recommend.js"></script>
     <script type="module" src="/js/chat.js"></script>
+    <script>
+        // Navigation toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (navToggle && navLinks) {
+                navToggle.addEventListener('click', function() {
+                    navToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+                
+                // Close menu when clicking on links
+                navLinks.querySelectorAll('a, button').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 1024) {
+                            navToggle.classList.remove('active');
+                            navLinks.classList.remove('active');
+                        }
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+                        navToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

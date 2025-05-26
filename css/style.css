@@ -75,6 +75,72 @@ nav {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 101;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Navigation Toggle */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    z-index: 101;
+}
+
+.nav-toggle span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
 }
 
 nav ul {
@@ -126,6 +192,14 @@ nav ul li a:hover::before {
 nav ul li a:hover, nav ul li button:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: none; /* Remove the translateY that causes shifting */
+}
+
+/* Active page highlighting */
+nav ul li a.active-page {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 700;
+    border-left: 4px solid rgba(255, 255, 255, 0.8);
+    padding-left: 0.75rem;
 }
 
 nav ul li button {
@@ -735,7 +809,7 @@ legend {
     height: 60px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.8);
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
@@ -746,11 +820,30 @@ legend {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    /* Ensure perfect circle */
+    box-sizing: border-box;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    outline: none;
+    /* Pulse animation for attention */
+    animation: chatPulse 2s infinite;
+}
+
+@keyframes chatPulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 200, 81, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(0, 200, 81, 0.6);
+    }
 }
 
 .chat-toggle:hover {
-    transform: scale(1.05);
-    box-shadow: var(--shadow-xl);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 25px rgba(0, 200, 81, 0.5);
+    border-color: rgba(255, 255, 255, 1);
 }
 
 .chat-toggle::before {
@@ -1028,6 +1121,75 @@ legend {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .nav-toggle {
+        display: flex;
+    }
+    
+    nav ul {
+        position: fixed;
+        top: -100%;
+        left: 0;
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 80px;
+        padding-bottom: 2rem;
+        transition: top 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        gap: 2rem;
+        overflow-y: auto;
+    }
+    
+    nav ul.active {
+        top: 0;
+    }
+    
+    nav ul li {
+        width: 80%;
+        text-align: center;
+    }
+    
+    nav ul li a,
+    nav ul li button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        border-radius: var(--radius-lg);
+        display: block;
+        text-align: center;
+    }
+    
+    nav ul li button {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+    }
+    
+    nav ul li button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Chat widget adjustments for tablet */
+    .chat-toggle {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        min-height: 55px;
+        max-width: 55px;
+        max-height: 55px;
+        font-size: 1.4rem;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1.5rem;
@@ -1037,12 +1199,18 @@ legend {
     nav {
         padding: 1rem;
     }
-      nav ul {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-        /* Maintain stable height on mobile */
-        min-height: auto;
+    
+    .logo img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+    }
+    
+    nav ul {
+        width: 250px;
     }
     
     h1 {
@@ -1071,13 +1239,40 @@ legend {
     
     button + button {
         margin-left: 0;
-        margin-top: 0.5rem;    }    .chart-section {
-        height: 350px; /* Increased from 300px */
+        margin-top: 0.5rem;
+    }
+    
+    .chart-section {
+        height: 350px;
         padding: 1rem;
     }
     
     .chart-wrapper {
-        max-height: 300px; /* Increased from 250px for tablet */
+        max-height: 300px;
+    }
+    
+    /* Chat widget mobile styles */
+    .chat-widget {
+        bottom: 15px;
+        right: 15px;
+        z-index: 1001;
+    }
+    
+    .chat-toggle {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        max-width: 50px;
+        max-height: 50px;
+        font-size: 1.2rem;
+        border-width: 2px;
+    }
+    
+    .chat-container {
+        width: 300px;
+        height: 450px;
+        bottom: 60px;
     }
 }
 
@@ -1087,19 +1282,47 @@ legend {
         margin: 0 0.5rem 0.5rem 0.5rem;
     }
     
+    .logo img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .logo-text {
+        font-size: 1.2rem;
+    }
+      nav ul {
+        width: 100vw;
+        padding-top: 70px;
+    }
+    
     h1 {
         font-size: 1.75rem;
     }
     
     input, textarea, select, button {
-        font-size: 16px; /* Prevent zoom on iOS */    }    .chart-section {
-        height: 300px; /* Increased from 250px */
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .chart-section {
+        height: 300px;
         padding: 0.5rem;
     }
     
     .chart-wrapper {
-        max-height: 225px; /* Increased from 200px for mobile */
-        min-height: 175px; /* Increased from 150px for mobile */
+        max-height: 225px;
+        min-height: 175px;
+    }
+    
+    /* Enhanced mobile navigation overlay */
+    nav ul.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
     }
 }
 
