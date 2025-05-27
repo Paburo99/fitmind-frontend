@@ -763,7 +763,7 @@ button + button {
 /* Chart Styling */
 .chart-section {
     position: relative;
-    height: 450px; /* Increased from 400px to accommodate larger chart wrappers */
+    height: 500px; /* Increased from 400px to accommodate larger chart wrappers */
     width: 100%;
     background: var(--background-secondary);
     border-radius: var(--radius-lg);
@@ -791,8 +791,8 @@ button + button {
     position: relative;
     width: 100%;
     flex: 1; /* Take remaining space */
-    min-height: 250px; /* Increased from 200px */
-    max-height: 350px; /* Increased from 300px */
+    min-height: 300px; /* Increased from 200px */
+    max-height: 400px; /* Increased from 300px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1360,12 +1360,12 @@ legend {
     }
     
     .chart-section {
-        height: 350px;
+        height: 400px;
         padding: 1rem;
     }
     
     .chart-wrapper {
-        max-height: 300px;
+        max-height: 350px;
     }
     
     /* Chat widget mobile styles */
@@ -1420,13 +1420,13 @@ legend {
     }
     
     .chart-section {
-        height: 300px;
+        height: 350px;
         padding: 0.5rem;
     }
     
     .chart-wrapper {
-        max-height: 225px;
-        min-height: 175px;
+        max-height: 275px;
+        min-height: 225px;
     }
       /* Enhanced mobile navigation overlay */
     #navLinks.active::before {
