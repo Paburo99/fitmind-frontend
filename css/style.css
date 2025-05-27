@@ -1176,7 +1176,7 @@ legend {
     background: var(--background-secondary);
     border: 1px solid var(--border-color);
     padding: 0.4rem 0.8rem;
-    margin: 0.1rem;
+    margin: 0.2rem;
     border-radius: var(--radius-lg);
     font-size: 0.8rem;
     cursor: pointer;
