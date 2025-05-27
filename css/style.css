@@ -791,8 +791,8 @@ button + button {
     position: relative;
     width: 100%;
     flex: 1; /* Take remaining space */
-    min-height: 300px; /* Increased from 200px */
-    max-height: 400px; /* Increased from 300px */
+    min-height: 275px; /* Increased from 200px */
+    max-height: 375px; /* Increased from 300px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1365,7 +1365,7 @@ legend {
     }
     
     .chart-wrapper {
-        max-height: 350px;
+        max-height: 300px;
     }
     
     /* Chat widget mobile styles */
@@ -1425,8 +1425,8 @@ legend {
     }
     
     .chart-wrapper {
-        max-height: 275px;
-        min-height: 225px;
+        max-height: 225px;
+        min-height: 175px;
     }
       /* Enhanced mobile navigation overlay */
     #navLinks.active::before {
