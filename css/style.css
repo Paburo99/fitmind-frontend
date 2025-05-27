@@ -551,23 +551,16 @@ button:active {
     background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
 }
 
-.btn-danger {
-    background: linear-gradient(135deg, var(--error-color), #DC2626);
-}
-
 .btn-success {
     background: linear-gradient(135deg, var(--success-color), var(--primary-dark));
 }
 
 .btn-outline {
-    background: transparent;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
 }
 
-.btn-outline:hover {
-    background: var(--primary-color);
-    color: white;
+.btn-danger {
+    background: linear-gradient(135deg, var(--error-color), #DC2626);
 }
 
 .btn-small {
