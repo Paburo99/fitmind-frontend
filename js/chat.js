@@ -54,7 +54,6 @@ class ContextAwareChat {
                     'Suggest actions based on today\'s activity levels'
                 ],
                 suggestions: [
-                    'How am I doing today?',
                     'What should I focus on next?',
                     'Explain my fitness summary',
                     'How can I improve my daily routine?'
@@ -71,7 +70,6 @@ class ContextAwareChat {
                     'Guide through personal information updates'
                 ],
                 suggestions: [
-                    'Help me set realistic fitness goals',
                     'What fitness level should I choose?',
                     'How do I update my dietary preferences?',
                     'What information is important for my profile?'
@@ -90,7 +88,6 @@ class ContextAwareChat {
                 suggestions: [
                     'How do I log a workout?',
                     'What nutrition information should I track?',
-                    'Help me record my water intake',
                     'How to track different exercise types?'
                 ]
             },
@@ -107,7 +104,6 @@ class ContextAwareChat {
                 suggestions: [
                     'Why was this workout recommended?',
                     'How are meal suggestions personalized?',
-                    'Can I customize my recommendations?',
                     'How often should I follow recommendations?'
                 ]
             },
@@ -124,7 +120,6 @@ class ContextAwareChat {
                 suggestions: [
                     'What do these charts tell me?',
                     'How is my progress trending?',
-                    'What patterns should I look for?',
                     'How can I improve based on my data?'
                 ]
             }
