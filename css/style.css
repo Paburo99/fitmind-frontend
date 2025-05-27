@@ -763,7 +763,7 @@ button + button {
 /* Chart Styling */
 .chart-section {
     position: relative;
-    height: 500px; /* Increased from 400px to accommodate larger chart wrappers */
+    height: 475px; /* Increased from 400px to accommodate larger chart wrappers */
     width: 100%;
     background: var(--background-secondary);
     border-radius: var(--radius-lg);

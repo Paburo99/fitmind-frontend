@@ -41,15 +41,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         refreshWorkoutChart.addEventListener('click', loadWorkoutChartData);
     }    // Nutrition chart controls
     const nutritionTimeframe = document.getElementById('nutritionTimeframe');
-    const nutritionMetric = document.getElementById('nutritionMetric');
     const refreshNutritionChart = document.getElementById('refreshNutritionChart');
     
     if (nutritionTimeframe) {
         nutritionTimeframe.addEventListener('change', loadNutritionChartData);
-    }
-    
-    if (nutritionMetric) {
-        nutritionMetric.addEventListener('change', loadNutritionChartData);
     }
     
     if (refreshNutritionChart) {
@@ -1355,15 +1350,14 @@ function groupCaloriesByPeriod(data, timeframe) {
 
 async function loadNutritionChartData() {
     const noNutritionDataMsg = document.getElementById('noNutritionDataMessage');
-    const metric = document.getElementById('nutritionMetric')?.value || 'calories';
     const timeframe = document.getElementById('nutritionTimeframe')?.value || '30';
     
     try {
-        const nutritionData = await makeApiRequest(`/progress/nutrition?metric=${metric}&days=${timeframe}`, 'GET');
+        const nutritionData = await makeApiRequest(`/progress/nutrition?days=${timeframe}`, 'GET');
         
         if (nutritionData && nutritionData.length > 0) {
             if(noNutritionDataMsg) noNutritionDataMsg.style.display = 'none';
-            renderNutritionChart(nutritionData, metric);
+            renderNutritionChart(nutritionData);
         } else {
             console.log('No nutrition data to display.');
             if(noNutritionDataMsg) noNutritionDataMsg.style.display = 'block';
@@ -1381,155 +1375,73 @@ async function loadNutritionChartData() {
     }
 }
 
-function renderNutritionChart(data, metric) {
+function renderNutritionChart(data) {
     const ctx = document.getElementById('nutritionChart').getContext('2d');
     
     if (nutritionChartInstance) {
         nutritionChartInstance.destroy();
     }
 
-    let chartData, chartType = 'line';
+    // Calculate daily goal (2000 calories recommended)
+    const calorieGoal = 2000;
+    const goalData = data.map(() => calorieGoal);
 
-    switch(metric) {
-        case 'calories':
-            // Calculate daily goal (2000 calories recommended)
-            const calorieGoal = 2000;
-            const goalData = data.map(() => calorieGoal);
-
-            chartData = {
-                labels: data.map(item => new Date(item.date).toLocaleDateString()),
-                datasets: [
-                    {
-                        label: 'Daily Calories',
-                        data: data.map(item => item.total_calories),
-                        borderColor: 'rgb(168, 85, 247)',
-                        backgroundColor: (ctx) => {
-                            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
-                            gradient.addColorStop(0, 'rgba(168, 85, 247, 0.3)');
-                            gradient.addColorStop(1, 'rgba(168, 85, 247, 0.05)');
-                            return gradient;
-                        },
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        pointBackgroundColor: (context) => {
-                            const value = context.parsed.y;
-                            if (Math.abs(value - calorieGoal) <= 100) return 'rgb(34, 197, 94)'; // Green for on target
-                            if (value < calorieGoal * 0.8) return 'rgb(239, 68, 68)'; // Red for too low
-                            return 'rgb(168, 85, 247)'; // Purple for normal
-                        },
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
-                    },
-                    {
-                        label: 'Daily Goal (2000 kcal)',
-                        data: goalData,
-                        borderColor: 'rgba(34, 197, 94, 0.8)',
-                        backgroundColor: 'transparent',
-                        borderWidth: 2,
-                        borderDash: [8, 4],
-                        tension: 0,
-                        fill: false,
-                        pointRadius: 0,
-                        pointHoverRadius: 0
-                    }
-                ]
-            };
-            break;        case 'macros':
-            // Use the most recent day's data for pie chart
-            const latestData = data[data.length - 1] || {};
-            const proteinValue = latestData.total_protein || 0;
-            const carbsValue = latestData.total_carbs || 0;
-            const fatValue = latestData.total_fat || 0;
-            
-            // Check if all macro values are zero
-            if (proteinValue === 0 && carbsValue === 0 && fatValue === 0) {
-                chartData = {
-                    labels: ['No macro data available'],
-                    datasets: [{
-                        data: [1],
-                        backgroundColor: ['rgba(156, 163, 175, 0.5)'],
-                        borderColor: ['rgb(156, 163, 175)'],
-                        borderWidth: 1
-                    }]
-                };
-            } else {
-                chartData = {
-                    labels: ['🥩 Protein', '🍞 Carbs', '🥑 Fat'],
-                    datasets: [{
-                        data: [proteinValue, carbsValue, fatValue],
-                        backgroundColor: [
-                            'rgba(34, 197, 94, 0.8)',
-                            'rgba(59, 130, 246, 0.8)',
-                            'rgba(249, 115, 22, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgb(34, 197, 94)',
-                            'rgb(59, 130, 246)',
-                            'rgb(249, 115, 22)'
-                        ],
-                        borderWidth: 3,
-                        hoverBorderWidth: 5,
-                        hoverOffset: 10
-                    }]
-                };
+    const chartData = {
+        labels: data.map(item => new Date(item.date).toLocaleDateString()),
+        datasets: [
+            {
+                label: 'Daily Calories',
+                data: data.map(item => item.total_calories),
+                borderColor: 'rgb(168, 85, 247)',
+                backgroundColor: (ctx) => {
+                    const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+                    gradient.addColorStop(0, 'rgba(168, 85, 247, 0.3)');
+                    gradient.addColorStop(1, 'rgba(168, 85, 247, 0.05)');
+                    return gradient;
+                },
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointBackgroundColor: (context) => {
+                    const value = context.parsed.y;
+                    if (Math.abs(value - calorieGoal) <= 100) return 'rgb(34, 197, 94)'; // Green for on target
+                    if (value < calorieGoal * 0.8) return 'rgb(239, 68, 68)'; // Red for too low
+                    return 'rgb(168, 85, 247)'; // Purple for normal
+                },
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+            },
+            {
+                label: 'Daily Goal (2000 kcal)',
+                data: goalData,
+                borderColor: 'rgba(34, 197, 94, 0.8)',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                borderDash: [8, 4],
+                tension: 0,
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0
             }
-            chartType = 'doughnut';
-            break;
-        case 'goals':
-            chartData = {
-                labels: data.map(item => new Date(item.date).toLocaleDateString()),
-                datasets: [
-                    {
-                        label: 'Actual Calories',
-                        data: data.map(item => item.total_calories),
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 6,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
-                    },
-                    {
-                        label: 'Goal Calories',
-                        data: data.map(item => item.calorie_goal || 2000), // Default goal
-                        borderColor: 'rgb(239, 68, 68)',
-                        backgroundColor: 'transparent',
-                        borderDash: [8, 4],
-                        borderWidth: 3,
-                        tension: 0,
-                        fill: false,
-                        pointRadius: 4,
-                        pointBackgroundColor: 'rgb(239, 68, 68)',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
-                    }
-                ]
-            };
-            break;
-        default:
-            chartData = {
-                labels: ['No Data'],
-                datasets: [{ data: [0] }]
-            };
-    }
+        ]
+    };
 
     nutritionChartInstance = new Chart(ctx, {
-        type: chartType,
+        type: 'line',
         data: chartData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: chartType === 'doughnut' ? '60%' : undefined,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
             plugins: {
                 legend: {
                     display: true,
-                    position: chartType === 'doughnut' ? 'bottom' : 'top',
+                    position: 'top',
                     labels: {
                         usePointStyle: true,
                         padding: 15,
@@ -1548,19 +1460,7 @@ function renderNutritionChart(data, metric) {
                     cornerRadius: 8,
                     padding: 12,
                     displayColors: true,
-                    callbacks: metric === 'macros' ? {
-                        title: function(context) {
-                            return `🍽️ Macro Breakdown`;
-                        },
-                        label: function(context) {
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = ((context.parsed / total) * 100).toFixed(1);
-                            return [
-                                `${context.label}: ${context.parsed}g`,
-                                `📊 ${percentage}% of total macros`
-                            ];
-                        }
-                    } : metric === 'calories' ? {
+                    callbacks: {
                         title: function(context) {
                             return `🍽️ ${context[0].label}`;
                         },
@@ -1576,10 +1476,10 @@ function renderNutritionChart(data, metric) {
                                 return `🎯 Goal: ${context.parsed.y} kcal`;
                             }
                         }
-                    } : undefined
+                    }
                 }
             },
-            scales: chartType === 'doughnut' ? {} : {
+            scales: {
                 x: {
                     grid: {
                         color: 'rgba(0, 0, 0, 0.1)',
@@ -1617,7 +1517,7 @@ function renderNutritionChart(data, metric) {
                     },
                     title: {
                         display: true,
-                        text: metric === 'goals' ? '🍽️ Calories' : '🍽️ Daily Calories',
+                        text: '🍽️ Daily Calories',
                         color: 'rgb(168, 85, 247)',
                         font: {
                             size: 14,
@@ -1629,11 +1529,7 @@ function renderNutritionChart(data, metric) {
             elements: {
                 point: {
                     hoverBorderWidth: 4
-                },
-                arc: chartType === 'doughnut' ? {
-                    borderWidth: 3,
-                    hoverBorderWidth: 5
-                } : undefined
+                }
             },
             animation: {
                 duration: 1000
