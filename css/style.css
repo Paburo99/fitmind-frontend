@@ -1281,10 +1281,6 @@ legend {
         margin-top: 1rem; /* Reset since body padding handles spacing */
     }
     
-    body {
-        padding-top: 85px; /* Adjust for tablet header height */
-    }
-    
     /* Chat widget adjustments for tablet */
     .chat-toggle {
         width: 55px;
@@ -1298,11 +1294,6 @@ legend {
 }
 
 @media (max-width: 768px) {
-    /* Ensure proper body padding for mobile header */
-    body {
-        padding-top: 80px; /* Adjust for mobile header height */
-    }
-    
     #userEmailDisplay {
         position: static;
         margin: 0.5rem 1rem 0 1rem;
